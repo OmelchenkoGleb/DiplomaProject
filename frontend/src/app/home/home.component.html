@@ -1,0 +1,26 @@
+<div class="bg-image"></div>
+<app-best-seller></app-best-seller>
+
+<div class="wrapper sticky">
+  <nav class="navbar-fixed-top">
+    <a href="#" class="logo">
+      <mat-icon>home</mat-icon> Система Управління Дипломною Практикою
+    </a>
+<!--    додавання треба перенести лише на адміна-->
+    <ul>
+      <li><a (click)="addUserAction()">Додати Адміністратора</a></li>
+    </ul>
+
+    <ul>
+      <li><a (click)="forgotPassword()">Надіслати пароль</a></li>
+    </ul>
+    <ul>
+      <li><a (click)="login()">Авторизуватися</a></li>
+    </ul>
+  </nav>
+</div>
+<div class="footer" id="signup">
+  <br>
+  <h2><a href="https://kpi.ua/" target="_blank" class="logo"><mat-icon>link</mat-icon>  Посилання на основний ресурс КПІ</a></h2>
+</div>
+

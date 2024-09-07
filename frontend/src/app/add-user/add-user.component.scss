@@ -1,0 +1,30 @@
+.mat-toolbar{
+  background-color: #0374c7;
+  margin: -24px;
+  width: auto;
+  margin-bottom: 10px;
+}
+
+.title-center{
+
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+mat-form-field{
+  padding: 5px;
+}
+
+.my-button {
+  transition: background-color 0.3s ease;
+
+  &:not([disabled]) {
+    background-color: #4caf50; /* Зеленый цвет для активной кнопки */
+    color: white;
+  }
+
+  &:disabled {
+    background-color: #d3d3d3; /* Серо-прозрачный цвет для задизейбленной кнопки */
+    color: #a9a9a9; /* Цвет текста для задизейбленной кнопки */
+  }
+}
