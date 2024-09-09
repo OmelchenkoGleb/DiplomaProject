@@ -1,0 +1,28 @@
+
+<mat-card>
+  <b><span>Інформаційна панель системи</span></b>
+</mat-card>
+<hr>
+<body>
+<div class="row">
+  <div class="column">
+    <div class="card">
+      <div class="container">
+        <h2 class="title">Кількість напрямків:</h2>
+        <h1 class="title">{{data?.directionofthesisCount}}</h1>
+        <p><button style="background-color: #1abc9c" class="button" [routerLink]="['/main/directionofthesis']">Переглянути</button></p>
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    <div class="card">
+      <div class="container">
+        <h2 class="title">Кількість спеціальностей:</h2>
+        <h1 class="title">{{data?.specialityCount}}</h1>
+        <p><button style="background-color: #1abc9c" class="button" [routerLink]="['/main/speciality']">Переглянути</button></p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+

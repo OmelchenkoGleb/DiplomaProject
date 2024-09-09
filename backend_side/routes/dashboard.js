@@ -13,7 +13,7 @@ var checkRole = require('../services/checkRole')
 
 
 
-router.get('/info', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res)=> {
+router.get('/info', auth.authenticateToken , (req, res)=> {
   var specialityCount;
   var directionofthesisCount;
 

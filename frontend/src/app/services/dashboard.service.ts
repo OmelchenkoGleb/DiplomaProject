@@ -13,6 +13,6 @@ export class DashboardService {
   ) { }
 
   getDetails(): any{
-    return this.httpClient.get(this.url + '/dashboard/details');
+    return this.httpClient.get(this.url + '/dashboard/info');
   }
 }

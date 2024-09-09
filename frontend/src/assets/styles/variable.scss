@@ -44,14 +44,14 @@ $sidebar-alt: #f2f6f8;
 $bodycolor: #eef5f9;
 $headingtext: #455a64;
 $bodytext: #67757c;
-$sidebar-text: #607d8b;
-$sidebar-icons: #99abb4;
+$sidebar-text: rgb(173, 216, 230);
+$sidebar-icons: rgb(173, 216, 230);
 
 $font-16: 16px;
 
 $light-text: #a6b7bf;
 $themecolor: #1e88e5;
-$themecolor-alt: #e53935;
+$themecolor-alt: rgb(53, 229, 229);
 $themecolor-dark: #028ee1;
 
 /*bootstrap Color*/
@@ -61,7 +61,7 @@ $warning: #ffb22b;
 $primary: #7460ee;
 $info: #1e88e5;
 // $inverse: #2f3d4a;
-$inverse: white;
+$inverse: #ffffff;
 $muted: #99abb4;
 $dark: #263238;
 $light: #f2f4f8;

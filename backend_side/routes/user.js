@@ -69,13 +69,14 @@ router.post('/forgotPasssword', (req, res) => {
     }
   })
 })
-router.get('/checkToken', (req,res) => {
+router.get('/checkToken', auth.authenticateToken, (req,res) => {
   return res.status(200).json({message: "true"})
 })
 
 router.post('/changePassword', auth.authenticateToken, (req,res) => {
   const user = req.body;
   const login = res.locals.login;
+
   var query = "select login, password from user where login = ? and password = ?";
   connection.query(query, [user.login, user.oldPassword], (err, results) => {
     if(!err) {
@@ -112,82 +113,144 @@ router.get('/get', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res) 
   })
 });
 
+router.get('/getAdmins', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res) => {
+  var query = "select id, login, name, contact_number, user_type, password from user where user_type = '3'"
+  connection.query(query, (err, results) => {
+    if(!err) {
+      return res.status(200).json(results);
+    } else {
+      return res.status(500).json(err);
+    }
+  })
+});
+
+router.get('/getStudents', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res) => {
+  var query = "select id, login, name, contact_number, user_type, password from user where user_type = '1'"
+  connection.query(query, (err, results) => {
+    if(!err) {
+      return res.status(200).json(results);
+    } else {
+      return res.status(500).json(err);
+    }
+  })
+});
+
+router.get('/getTeachers', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res) => {
+  var query = "select id, login, name, contact_number, user_type, password from user where user_type = '2'"
+  connection.query(query, (err, results) => {
+    if(!err) {
+      return res.status(200).json(results);
+    } else {
+      return res.status(500).json(err);
+    }
+  })
+});
+
 // ДОДАВАНЯ РІЗНИХ ТИПІВ ЮЗЕРІВ В ТАБЛИЦЮ
+router.post('/add', auth.authenticateToken, checkRole.checkRoleAdmin, (req,res) => {
+  let user = req.body;
+  console.log(user)
+  query = "select login, password, user_type from user where login=?"
+  connection.query(query, [user.email], (err, results) => {
+    if (!err) {
+      if(results.length <= 0) {
+        query = "INSERT INTO `user` (`Name`, `contact_number`, `user_type`, `login`, `password`) VALUES (?,?,?,?,?);"
+        connection.query(query, [user.name, user.contactNumber, user.user_type, user.email, user.password], (err, results) => {
+          if(!err) {
+            console.log("Successfully Registered");
+            return res.status(200).json({message: "Successfully Registered"});
+          } else {
+            console.log(err);
+            return res.status(500).json(err);
+          }
+        })
+      } else {
+        console.log("Email Already Exist");
+        return res.status(400).json({message: "Email Already Exist"});
+      }
+    } else {
+      return res.status(500).json(err);
+    }
+  })
+})
+
+
+
 // додавання студента
-router.post('/addStudent', auth.authenticateToken, checkRole.checkRoleAdmin, (req,res) => {
-  let user = req.body;
-  query = "select login, password, user_type from user where login=?"
-  connection.query(query, [user.email], (err, results) => {
-    if (!err) {
-      if(results.length <= 0) {
-        query = "INSERT INTO `user` (`Name`, `contact_number`, `user_type`, `login`, `password`) VALUES (?,?,'1',?,?);"
-        connection.query(query, [user.name, user.contact_number, user.user_type, user.email, user.password], (err, results) => {
-          if(!err) {
-            console.log("Successfully Registered");
-            return res.status(200).json({message: "Successfully Registered"});
-          } else {
-            return res.status(500).json(err);
-          }
-        })
-      } else {
-        console.log("Email Already Exist");
-        return res.status(400).json({message: "Email Already Exist"});
-      }
-    } else {
-      return res.status(500).json(err);
-    }
-  })
-})
-// додавання вчителя
-router.post('/addTeacher', auth.authenticateToken, checkRole.checkRoleAdmin, (req,res) => {
-  let user = req.body;
-  query = "select login, password, user_type from user where login=?"
-  connection.query(query, [user.email], (err, results) => {
-    if (!err) {
-      if(results.length <= 0) {
-        query = "INSERT INTO `user` (`Name`, `contact_number`, `user_type`, `login`, `password`) VALUES (?,?,'2',?,?);"
-        connection.query(query, [user.name, user.contact_number, user.user_type, user.email, user.password], (err, results) => {
-          if(!err) {
-            console.log("Successfully Registered");
-            return res.status(200).json({message: "Successfully Registered"});
-          } else {
-            return res.status(500).json(err);
-          }
-        })
-      } else {
-        console.log("Email Already Exist");
-        return res.status(400).json({message: "Email Already Exist"});
-      }
-    } else {
-      return res.status(500).json(err);
-    }
-  })
-})
-// додавання адміна
-router.post('/addAdmin', (req,res) => {
-  let user = req.body;
-  query = "select login, password, user_type from user where login=?"
-  connection.query(query, [user.email], (err, results) => {
-    if (!err) {
-      if(results.length <= 0) {
-        query = "INSERT INTO `user` (`Name`, `contact_number`, `user_type`, `login`, `password`) VALUES (?,?,'3',?,?);"
-        connection.query(query, [user.name, user.contactNumber, user.email, user.password], (err, results) => {
-          if(!err) {
-            console.log("Successfully Registered");
-            return res.status(200).json({message: "Successfully Registered"});
-          } else {
-            return res.status(500).json(err);
-          }
-        })
-      } else {
-        console.log("Email Already Exist");
-        return res.status(400).json({message: "Email Already Exist"});
-      }
-    } else {
-      return res.status(500).json(err);
-    }
-  })
-})
+// router.post('/addStudent', auth.authenticateToken, checkRole.checkRoleAdmin, (req,res) => {
+//   let user = req.body;
+//   query = "select login, password, user_type from user where login=?"
+//   connection.query(query, [user.email], (err, results) => {
+//     if (!err) {
+//       if(results.length <= 0) {
+//         query = "INSERT INTO `user` (`Name`, `contact_number`, `user_type`, `login`, `password`) VALUES (?,?,'1',?,?);"
+//         connection.query(query, [user.name, user.contact_number, user.user_type, user.email, user.password], (err, results) => {
+//           if(!err) {
+//             console.log("Successfully Registered");
+//             return res.status(200).json({message: "Successfully Registered"});
+//           } else {
+//             return res.status(500).json(err);
+//           }
+//         })
+//       } else {
+//         console.log("Email Already Exist");
+//         return res.status(400).json({message: "Email Already Exist"});
+//       }
+//     } else {
+//       return res.status(500).json(err);
+//     }
+//   })
+// })
+// // додавання вчителя
+// router.post('/addTeacher', auth.authenticateToken, checkRole.checkRoleAdmin, (req,res) => {
+//   let user = req.body;
+//   query = "select login, password, user_type from user where login=?"
+//   connection.query(query, [user.email], (err, results) => {
+//     if (!err) {
+//       if(results.length <= 0) {
+//         query = "INSERT INTO `user` (`Name`, `contact_number`, `user_type`, `login`, `password`) VALUES (?,?,'2',?,?);"
+//         connection.query(query, [user.name, user.contact_number, user.user_type, user.email, user.password], (err, results) => {
+//           if(!err) {
+//             console.log("Successfully Registered");
+//             return res.status(200).json({message: "Successfully Registered"});
+//           } else {
+//             return res.status(500).json(err);
+//           }
+//         })
+//       } else {
+//         console.log("Email Already Exist");
+//         return res.status(400).json({message: "Email Already Exist"});
+//       }
+//     } else {
+//       return res.status(500).json(err);
+//     }
+//   })
+// })
+// // додавання адміна
+// router.post('/addAdmin', (req,res) => {
+//   let user = req.body;
+//   query = "select login, password, user_type from user where login=?"
+//   connection.query(query, [user.email], (err, results) => {
+//     if (!err) {
+//       if(results.length <= 0) {
+//         query = "INSERT INTO `user` (`Name`, `contact_number`, `user_type`, `login`, `password`) VALUES (?,?,'3',?,?);"
+//         connection.query(query, [user.name, user.contactNumber, user.email, user.password], (err, results) => {
+//           if(!err) {
+//             console.log("Successfully Registered");
+//             return res.status(200).json({message: "Successfully Registered"});
+//           } else {
+//             return res.status(500).json(err);
+//           }
+//         })
+//       } else {
+//         console.log("Email Already Exist");
+//         return res.status(400).json({message: "Email Already Exist"});
+//       }
+//     } else {
+//       return res.status(500).json(err);
+//     }
+//   })
+// })
 
 
 
