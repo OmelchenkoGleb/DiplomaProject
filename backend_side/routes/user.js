@@ -114,7 +114,7 @@ router.get('/get', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res) 
 });
 
 router.get('/getAdmins', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res) => {
-  var query = "select id, login, name, contact_number, user_type, password from user where user_type = '3'"
+  var query = "select id, login as email, name, contact_number as contactNumber, user_type, password from user where user_type = '3'"
   connection.query(query, (err, results) => {
     if(!err) {
       return res.status(200).json(results);
@@ -125,7 +125,7 @@ router.get('/getAdmins', auth.authenticateToken, checkRole.checkRoleAdmin, (req,
 });
 
 router.get('/getStudents', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res) => {
-  var query = "select id, login, name, contact_number, user_type, password from user where user_type = '1'"
+  var query = "select id, login as email, name, contact_number as contactNumber, user_type, password from user where user_type = '1'"
   connection.query(query, (err, results) => {
     if(!err) {
       return res.status(200).json(results);
@@ -136,7 +136,7 @@ router.get('/getStudents', auth.authenticateToken, checkRole.checkRoleAdmin, (re
 });
 
 router.get('/getTeachers', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res) => {
-  var query = "select id, login, name, contact_number, user_type, password from user where user_type = '2'"
+  var query = "select id, login as email, name, contact_number as contactNumber, user_type, password from user where user_type = '2'"
   connection.query(query, (err, results) => {
     if(!err) {
       return res.status(200).json(results);
@@ -168,6 +168,47 @@ router.post('/add', auth.authenticateToken, checkRole.checkRoleAdmin, (req,res) 
         console.log("Email Already Exist");
         return res.status(400).json({message: "Email Already Exist"});
       }
+    } else {
+      return res.status(500).json(err);
+    }
+  })
+})
+
+// update
+router.patch('/update', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res)=> {
+  let user = req.body;
+  console.log(user);
+  query = "select * from user where `user`.`login` = ? AND `user`.`ID` != ?"
+  connection.query(query, [user.email, user.id], (err, results) => {
+    if (!err) {
+      if(results.length <= 0) {
+        let query = "UPDATE `user` SET `Name` = ?, `contact_number` = ?, `login` = ?, `password` = ? WHERE `user`.`ID` = ?"
+        connection.query(query,[user.name, user.contactNumber, user.email, user.password, user.id], (err, result)=> {
+          if(!err){
+            if (result.afffectedRows == 0) {
+              return res.status(404).json({message : "User ID does not found"});
+            } else {
+              return res.status(200).json({message : "User Updated Successfully"});
+            }
+          } else {
+            return res.status(500).json(err);
+          }
+        })
+      } else {
+        return res.status(400).json({message: "User Already Exist"});
+      }
+    } else {
+      return res.status(500).json(err);
+    }
+  })
+})
+
+router.post('/delete', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res)=> {
+  let user = req.body;
+  let query = "delete from `user` where `user`.`ID` = ?";
+  connection.query(query, [user.id], (err, result) => {
+    if(!err) {
+      return res.status(200).json({message : "User Deleted Successfully"})
     } else {
       return res.status(500).json(err);
     }

@@ -74,12 +74,12 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRoleAdmin, (req, 
   })
 })
 // delete
-router.delete('/delete/:id', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res)=> {
-  const id = req.params.id;
-  let query = "delete from `directionofthesis` where `specialty`.`ID` = ?";
-  connection.query(query, [id], (err, result) => {
+router.post('/delete', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res)=> {
+  let directionofthesis = req.body;
+  let query = "delete from `directionofthesis` where `directionofthesis`.`ID` = ?";
+  connection.query(query, [directionofthesis.id], (err, result) => {
     if(!err) {
-      return res.status(200).json({message : "Speciality Deleted Successfully"})
+      return res.status(200).json({message : "Direction Of Thesis Deleted Successfully"})
     } else {
       return res.status(500).json(err);
     }

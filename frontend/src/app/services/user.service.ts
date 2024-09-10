@@ -54,4 +54,17 @@ export class UserService {
       {headers: new HttpHeaders().set('Content-Type', 'application/json')
       });
   }
+
+  update(data: any): any{
+    return this.httpClient.patch(this.url + '/user/update', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
+  delete(data: any): any{
+    return this.httpClient.post(this.url + '/user/delete', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
 }

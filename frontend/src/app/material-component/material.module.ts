@@ -15,6 +15,10 @@ import { ChangePasswordComponent } from './dialog/change-password/change-passwor
 import { ManageAdminComponent } from './manage-admin/manage-admin.component';
 import { ManageStudentComponent } from './manage-student/manage-student.component';
 import { ManageTeacherComponent } from './manage-teacher/manage-teacher.component';
+import { ManageSpecialityComponent } from './manage-speciality/manage-speciality.component';
+import { SpecialityComponent } from './dialog/speciality/speciality.component';
+import { ManageDirectionofthesisComponent } from './manage-directionofthesis/manage-directionofthesis.component';
+import { DirectionofthesisComponent } from './dialog/directionofthesis/directionofthesis.component';
 
 @NgModule({
   imports: [
@@ -34,7 +38,11 @@ import { ManageTeacherComponent } from './manage-teacher/manage-teacher.componen
     ChangePasswordComponent,
     ManageAdminComponent,
     ManageStudentComponent,
-    ManageTeacherComponent
+    ManageTeacherComponent,
+    ManageSpecialityComponent,
+    SpecialityComponent,
+    ManageDirectionofthesisComponent,
+    DirectionofthesisComponent
   ]
 })
 export class MaterialComponentsModule {}

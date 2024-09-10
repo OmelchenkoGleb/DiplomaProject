@@ -4,6 +4,8 @@ import {ManageAdminComponent} from './manage-admin/manage-admin.component';
 import {RouteGuardService} from '../services/route-guard.service';
 import {ManageStudentComponent} from './manage-student/manage-student.component';
 import {ManageTeacherComponent} from './manage-teacher/manage-teacher.component';
+import {ManageSpecialityComponent} from "./manage-speciality/manage-speciality.component";
+import {ManageDirectionofthesisComponent} from "./manage-directionofthesis/manage-directionofthesis.component";
 
 
 
@@ -27,6 +29,23 @@ export const MaterialRoutes: Routes = [
   {
     path: 'teachers',
     component: ManageTeacherComponent,
+    canActivate: [RouteGuardService],
+    data: {
+      expectedRole: ['admin']
+    }
+  },
+  {
+    path: 'speciality',
+    component: ManageSpecialityComponent,
+    canActivate: [RouteGuardService],
+    data: {
+      expectedRole: ['admin']
+    }
+  }
+  ,
+  {
+    path: 'directionofthesis',
+    component: ManageDirectionofthesisComponent,
     canActivate: [RouteGuardService],
     data: {
       expectedRole: ['admin']

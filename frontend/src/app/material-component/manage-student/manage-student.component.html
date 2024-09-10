@@ -1,0 +1,45 @@
+<mat-card>
+  <b><span>Керування Студентами</span></b>
+  <button mat-flat-button style="background-color: #ffaa68; color: white" class="float-right" (click)="handleAddAction()"><mat-icon>local_hospital_icon</mat-icon>   Додати</button>
+</mat-card>
+<hr>
+<mat-card>
+  <mat-form-field appearance="fill">
+    <mat-label>Фільтрування</mat-label>
+    <input matInput (keyup)="applyFilter($event)" #input>
+  </mat-form-field>
+</mat-card>
+<hr>
+<div class="responsive_table">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Назва користувача</th>
+      <td mat-cell *matCellDef ="let  element">{{element.name}}</td>
+    </ng-container>
+    <ng-container matColumnDef="contactNumber">
+      <th mat-header-cell *matHeaderCellDef>Контактний номер</th>
+      <td mat-cell *matCellDef ="let  element">{{element.contactNumber}}</td>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Електрона адреса</th>
+      <td mat-cell *matCellDef ="let  element">{{element.email}}</td>
+    </ng-container>
+    <ng-container matColumnDef="password">
+      <th mat-header-cell *matHeaderCellDef>Пароль</th>
+      <td mat-cell *matCellDef ="let  element">{{element.password}}</td>
+    </ng-container>
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef>Дії</th>
+      <td mat-cell *matCellDef ="let  element" class="action-link">
+        <button mat-icon-button style="background-color: yellowgreen; color: #003366" matTooltip="Редагувати" (click)="handleEditAction(element)">
+          <mat-icon>edit_icon</mat-icon>
+        </button>
+        <button mat-icon-button style="background-color: orangered; color: rgba(5,35,59,0.83)" matTooltip="Видалити" (click)="handleDeleteAction(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
+  </table>
+</div>

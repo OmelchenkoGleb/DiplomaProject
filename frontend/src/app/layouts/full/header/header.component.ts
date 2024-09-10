@@ -29,6 +29,7 @@ export class AppHeaderComponent {
     });
   }
 
+  // tslint:disable-next-line:typedef
   changePassword(){
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '550px';
