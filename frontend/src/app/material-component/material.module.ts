@@ -19,6 +19,8 @@ import { ManageSpecialityComponent } from './manage-speciality/manage-speciality
 import { SpecialityComponent } from './dialog/speciality/speciality.component';
 import { ManageDirectionofthesisComponent } from './manage-directionofthesis/manage-directionofthesis.component';
 import { DirectionofthesisComponent } from './dialog/directionofthesis/directionofthesis.component';
+import { DiplomaPracticeComponent } from './dialog/diploma-practice/diploma-practice.component';
+import { ManageDiplomaPracticeComponent } from './manage-diploma-practice/manage-diploma-practice.component';
 
 @NgModule({
   imports: [
@@ -42,7 +44,9 @@ import { DirectionofthesisComponent } from './dialog/directionofthesis/direction
     ManageSpecialityComponent,
     SpecialityComponent,
     ManageDirectionofthesisComponent,
-    DirectionofthesisComponent
+    DirectionofthesisComponent,
+    DiplomaPracticeComponent,
+    ManageDiplomaPracticeComponent
   ]
 })
 export class MaterialComponentsModule {}

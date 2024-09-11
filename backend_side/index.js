@@ -6,6 +6,7 @@ const userRoute = require('./routes/user');
 const specialityRoute = require('./routes/speciality');
 const directionofthesisRoute = require('./routes/directionofthesis');
 const dashboardRoute = require('./routes/dashboard');
+const diploma_practiceRoute = require('./routes/diploma_practice');
 
 const app = express();
 app.use(cors())
@@ -15,6 +16,7 @@ app.use('/user', userRoute);
 app.use('/speciality', specialityRoute);
 app.use('/directionofthesis', directionofthesisRoute);
 app.use('/dashboard', dashboardRoute);
+app.use('/diploma_practice', diploma_practiceRoute);
 
 
 app.listen(process.env.PORT, () => {

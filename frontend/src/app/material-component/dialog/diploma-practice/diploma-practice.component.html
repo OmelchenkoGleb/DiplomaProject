@@ -1,0 +1,54 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row">
+    <span class="title-center">{{label_name}}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="addDiplomaPracticeForm">
+    <div fxFlex fxLayout="column">
+      <div fxLayout = "row wrap">
+        <mat-form-field appearance="fill" fxFlex>
+          <mat-label>Викладач</mat-label>
+          <mat-select formControlName="teacherID">
+            <mat-option *ngFor="let teacher of teachers" [value]="teacher.id">{{teacher.name}} - {{teacher.email}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" fxFlex>
+          <mat-label>Студент</mat-label>
+          <mat-select formControlName="studentID">
+            <mat-option *ngFor="let student of students" [value]="student.id">{{student.name}} - {{student.email}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxLayout = "row wrap">
+        <mat-form-field appearance="fill" fxFlex>
+          <mat-label>Cпеціальність</mat-label>
+          <mat-select formControlName="specialityId">
+            <mat-option *ngFor="let specialit of speciality" [value]="specialit.ID">{{specialit.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" fxFlex>
+          <mat-label>Напрямок</mat-label>
+          <mat-select formControlName="directionId">
+            <mat-option *ngFor="let dir of direction" [value]="dir.ID">{{dir.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxLayout = "row wrap">
+        <mat-form-field appearance="fill" fxFlex>
+          <mat-label>Опис</mat-label>
+          <textarea matInput formControlName="description" required rows="1" (input)="autoResize($event)"></textarea>
+          <mat-error *ngIf="addDiplomaPracticeForm.controls.description.touched && addDiplomaPracticeForm.controls.description.invalid">
+            <span *ngIf="addDiplomaPracticeForm.controls.description.errors.required">Це поле э обовёязковим для заповнення.</span>
+            <span *ngIf="addDiplomaPracticeForm.controls.description.errors.pattern">Ви вели неправильну інформацію.</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button class="my-button" mat-raised-button color="primary" type="submit" (click)="handleSubmit()" [disabled]="!(addDiplomaPracticeForm.valid && addDiplomaPracticeForm.dirty)">Додати</button>
+  <button mat-raised-button color="primary" mat-dialog-close>Скасувати</button>
+</mat-dialog-actions>

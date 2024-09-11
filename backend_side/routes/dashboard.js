@@ -16,12 +16,11 @@ var checkRole = require('../services/checkRole')
 router.get('/info', auth.authenticateToken , (req, res)=> {
   var specialityCount;
   var directionofthesisCount;
+  var diplomapracticeCount;
 
-  console.log("test")
 
   var query = "SELECT COUNT(*) as specialtyCount FROM `specialty`"
   connection.query(query, (err, result)=> {
-    console.log(err)
     if(!err){
       specialityCount = result[0].specialtyCount;
     } else {
@@ -29,16 +28,24 @@ router.get('/info', auth.authenticateToken , (req, res)=> {
     }
   })
 
+  query = "SELECT COUNT(*) as diplomapracticeCount FROM `diploma practice`"
+  connection.query(query, (err, result)=> {
+    if(!err){
+      diplomapracticeCount = result[0].diplomapracticeCount;
+    } else {
+      return res.status(500).json(err);
+    }
+  })
+
   query = "SELECT COUNT(*) as directionofthesisCount FROM `directionofthesis`"
   connection.query(query, (err, result)=> {
-    console.log(err)
     if(!err){
       directionofthesisCount = result[0].directionofthesisCount;
       var data = {
         specialityCount: specialityCount,
-        directionofthesisCount: directionofthesisCount
+        directionofthesisCount: directionofthesisCount,
+        diplomapracticeCount: diplomapracticeCount
       }
-      console.log(data);
       return res.status(200).json(data)
     } else {
       return res.status(500).json(err);
