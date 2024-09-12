@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import {ConfirmationComponent} from '../../../material-component/dialog/confirmation/confirmation.component';
 import {ChangePasswordComponent} from "../../../material-component/dialog/change-password/change-password.component";
+import {jwtDecode} from "jwt-decode";
 
 @Component({
   selector: 'app-header',
@@ -11,9 +12,15 @@ import {ChangePasswordComponent} from "../../../material-component/dialog/change
 })
 export class AppHeaderComponent {
   role: any;
+  login = '';
+  style: any;
   constructor(private router: Router,
               private dialog: MatDialog) {
-
+    const token: any = localStorage.getItem('token');
+    const tokenPayLoad = jwtDecode(token);
+    // @ts-ignore
+    const email = tokenPayLoad.login;
+    this.login = email;
   }
 
   logout(): any{

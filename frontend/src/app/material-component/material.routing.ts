@@ -7,6 +7,10 @@ import {ManageTeacherComponent} from './manage-teacher/manage-teacher.component'
 import {ManageSpecialityComponent} from "./manage-speciality/manage-speciality.component";
 import {ManageDirectionofthesisComponent} from "./manage-directionofthesis/manage-directionofthesis.component";
 import {ManageDiplomaPracticeComponent} from "./manage-diploma-practice/manage-diploma-practice.component";
+import {StudentViewTasksComponent} from "./student-view-tasks/student-view-tasks.component";
+import {StudentViewResultfileComponent} from "./student-view-resultfile/student-view-resultfile.component";
+import {StudentViewDiaryComponent} from "./student-view-diary/student-view-diary.component";
+import {TeacherViewPracticeComponent} from "./teacher-view-practice/teacher-view-practice.component";
 
 
 
@@ -57,6 +61,38 @@ export const MaterialRoutes: Routes = [
     canActivate: [RouteGuardService],
     data: {
       expectedRole: ['admin']
+    }
+  },
+  {
+    path: 'studenttasks',
+    component: StudentViewTasksComponent,
+    canActivate: [RouteGuardService],
+    data: {
+      expectedRole: ['student']
+    }
+  },
+  {
+    path: 'studentResultFileReport',
+    component: StudentViewResultfileComponent,
+    canActivate: [RouteGuardService],
+    data: {
+      expectedRole: ['student']
+    }
+  },
+  {
+    path: 'studentResultFileDiary',
+    component: StudentViewDiaryComponent,
+    canActivate: [RouteGuardService],
+    data: {
+      expectedRole: ['student']
+    }
+  },
+  {
+    path: 'teacherPractice',
+    component: TeacherViewPracticeComponent,
+    canActivate: [RouteGuardService],
+    data: {
+      expectedRole: ['teacher']
     }
   }
 ];

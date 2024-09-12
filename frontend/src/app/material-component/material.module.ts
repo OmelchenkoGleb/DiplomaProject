@@ -21,6 +21,11 @@ import { ManageDirectionofthesisComponent } from './manage-directionofthesis/man
 import { DirectionofthesisComponent } from './dialog/directionofthesis/directionofthesis.component';
 import { DiplomaPracticeComponent } from './dialog/diploma-practice/diploma-practice.component';
 import { ManageDiplomaPracticeComponent } from './manage-diploma-practice/manage-diploma-practice.component';
+import { StudentViewTasksComponent } from './student-view-tasks/student-view-tasks.component';
+import { StudentViewResultfileComponent } from './student-view-resultfile/student-view-resultfile.component';
+import { UploadFileDocxComponent } from './dialog/upload-file-docx/upload-file-docx.component';
+import { StudentViewDiaryComponent } from './student-view-diary/student-view-diary.component';
+import { TeacherViewPracticeComponent } from './teacher-view-practice/teacher-view-practice.component';
 
 @NgModule({
   imports: [
@@ -46,7 +51,12 @@ import { ManageDiplomaPracticeComponent } from './manage-diploma-practice/manage
     ManageDirectionofthesisComponent,
     DirectionofthesisComponent,
     DiplomaPracticeComponent,
-    ManageDiplomaPracticeComponent
+    ManageDiplomaPracticeComponent,
+    StudentViewTasksComponent,
+    StudentViewResultfileComponent,
+    UploadFileDocxComponent,
+    StudentViewDiaryComponent,
+    TeacherViewPracticeComponent
   ]
 })
 export class MaterialComponentsModule {}

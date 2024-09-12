@@ -14,6 +14,12 @@ export class DiplomaPracticeService {
     return this.httpClient.get(this.url + '/diploma_practice/get');
   }
 
+  getForTeacher(data: any): any{
+    return this.httpClient.post(this.url + '/diploma_practice/getForTeacher', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
   add(data: any): any{
     return this.httpClient.post(this.url + '/diploma_practice/add', data,
       {headers: new HttpHeaders().set('Content-Type', 'application/json')

@@ -1,0 +1,49 @@
+<!--<mat-toolbar color="primary">-->
+<!--  <mat-toolbar-row fxLayout="row">-->
+<!--    <span class="title-center">{{label_name}}</span>-->
+<!--  </mat-toolbar-row>-->
+<!--</mat-toolbar>-->
+<!--<mat-dialog-content class="mat-typography">-->
+<!--  <div fxFlex fxLayout="column">-->
+
+<!--      <mat-label>Назва</mat-label>-->
+<!--        <input type="file" (change)="onFileSelected($event)" />-->
+
+<!--  </div>-->
+<!--</mat-dialog-content>-->
+<!--<mat-dialog-actions align="center">-->
+<!--  <button mat-button color="primary" (click)="onUpload()">-->
+<!--    Add-->
+<!--  </button>-->
+<!--</mat-dialog-actions>-->
+
+
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="center center">
+    <span class="title-center">{{label_name}}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-dialog-content class="mat-typography dialog-content">
+  <div fxFlex fxLayout="column" fxLayoutGap="20px" class="upload-container">
+
+    <!-- Блок для вибору файлу -->
+    <mat-form-field appearance="outline" class="file-upload-field">
+      <mat-label>Оберіть файл</mat-label>
+      <input type="text" matInput [value]="selectedFileName" readonly placeholder="Оберіть файл..." />
+      <button style="margin-bottom: 20px" mat-button matSuffix color="primary" (click)="fileInput.click()">Переглянути</button>
+      <input type="file" #fileInput (change)="onFileSelected($event)" hidden />
+    </mat-form-field>
+
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center" class="dialog-actions">
+  <button class="my-button" mat-raised-button color="primary" (click)="onUpload()">
+    Завантажити
+  </button>
+  <button mat-raised-button color="primary" mat-button mat-dialog-close >
+    Скасувати
+  </button>
+</mat-dialog-actions>
+
