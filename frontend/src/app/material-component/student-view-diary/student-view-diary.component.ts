@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {Component, Inject, OnInit, Optional} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {ResultfileService} from "../../services/resultfile.service";
 import {ScnackbarService} from "../../services/scnackbar.service";
@@ -24,21 +24,31 @@ export class StudentViewDiaryComponent implements OnInit {
   constructor(private dialog: MatDialog,
               private router: Router,
               private resultfile: ResultfileService,
-              private scnackbarService: ScnackbarService) { }
+              private scnackbarService: ScnackbarService,
+              @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: any) { }
 
   ngOnInit(): void {
     this.tableData();
   }
 
   tableData(): any {
-    const token: any = localStorage.getItem('token');
-    const tokenPayLoad = jwtDecode(token);
-    // @ts-ignore
-    const email = tokenPayLoad.login;
-    this.email = email;
-    const data = {
-      login: email
-    };
+    let data: any;
+    if (this.dialogData?.email) {
+      this.email = this.dialogData?.email;
+      data = {
+        login: this.dialogData?.email
+      };
+    } else {
+      const token: any = localStorage.getItem('token');
+      const tokenPayLoad = jwtDecode(token);
+      // @ts-ignore
+      const email = tokenPayLoad.login;
+      this.email = email;
+      data = {
+        login: email
+      };
+    }
+    console.log(data);
     // @ts-ignore
     this.resultfile.getDiary(data).subscribe(
       (response: any): any => {

@@ -13,9 +13,9 @@ var checkRole = require('../services/checkRole')
 
 // БАЗОВІ CRUD ЗАПИТИ
 // get
-router.post('/get', auth.authenticateToken, checkRole.checkRoleStudent, (req, res)=> {
+router.post('/get', auth.authenticateToken, (req, res)=> {
     let tasks = req.body;
-    let query = "SELECT * FROM `tasks`ts INNER JOIN `diploma practice` dp ON(dp.`ID` = ts.`diplomapractice_id`) INNER JOIN `user` us ON(us.`ID` = dp.`student_id`) WHERE us.`login` = ?"
+    let query = "SELECT ts.`ID` as `ID`, ts.`name` as `name`, ts.`status` as `status` FROM `tasks`ts INNER JOIN `diploma practice` dp ON(dp.`ID` = ts.`diplomapractice_id`) INNER JOIN `user` us ON(us.`ID` = dp.`student_id`) WHERE us.`login` = ?"
     connection.query(query,[tasks.login], (err, result)=> {
         if(!err){
             return res.status(200).json(result);
@@ -25,79 +25,58 @@ router.post('/get', auth.authenticateToken, checkRole.checkRoleStudent, (req, re
     })
 })
 
-// // add
-// router.post('/add', auth.authenticateToken, checkRole.checkRoleAdmin, (req,res) => {
-//     let speciality = req.body;
-//     query = "select * from specialty where name=?"
-//     connection.query(query, [speciality.name], (err, results) => {
-//         if (!err) {
-//             if(results.length <= 0) {
-//                 query = "INSERT INTO `specialty` (`name`) VALUES (?);"
-//                 connection.query(query, [speciality.name], (err, results) => {
-//                     if(!err) {
-//                         return res.status(200).json({message: "Successfully Added New Speciality"});
-//                     } else {
-//                         return res.status(500).json(err);
-//                     }
-//                 })
-//             } else {
-//                 return res.status(400).json({message: "Speciality Already Exist"});
-//             }
-//         } else {
-//             return res.status(500).json(err);
-//         }
-//     })
-// })
-// // update
-// router.patch('/update', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res)=> {
-//     let speciality = req.body;
-//     query = "select * from specialty where name=?"
-//     connection.query(query, [speciality.name], (err, results) => {
-//         if (!err) {
-//             if(results.length <= 0) {
-//                 let query = "UPDATE `specialty` SET `name` = ? WHERE `specialty`.`ID` = ?"
-//                 connection.query(query,[speciality.name, speciality.id], (err, result)=> {
-//                     if(!err){
-//                         if (result.afffectedRows == 0) {
-//                             return res.status(404).json({message : "Speciality ID does not found"});
-//                         } else {
-//                             return res.status(200).json({message : "Speciality Updated Successfully"});
-//                         }
-//                     } else {
-//                         return res.status(500).json(err);
-//                     }
-//                 })
-//             } else {
-//                 return res.status(400).json({message: "Speciality Already Exist"});
-//             }
-//         } else {
-//             return res.status(500).json(err);
-//         }
-//     })
-// })
-// // delete
-// router.post('/delete', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res)=> {
-//     let speciality = req.body;
-//     let query = "delete from `specialty` where `specialty`.`ID` = ?";
-//     connection.query(query, [speciality.id], (err, result) => {
-//         if(!err) {
-//             return res.status(200).json({message : "Speciality Deleted Successfully"})
-//         } else {
-//             return res.status(500).json(err);
-//         }
-//     })
-// })
-// // getByID
-// router.get('/getById/:id', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res)=> {
-//     const id = req.params.id
-//     let query = "select * from specialty where ID = ?"
-//     connection.query(query, [id], (err, result)=> {
-//         if(!err){
-//             return res.status(200).json(result[0]);
-//         } else {
-//             return res.status(500).json(err);
-//         }
-//     })
-// })
+router.post('/add', auth.authenticateToken, (req,res) => {
+    let tasks = req.body;
+    query = "INSERT INTO `tasks` (`name`, `diplomapractice_id`, `status`) VALUES (?, ( SELECT dp.`ID` FROM `diploma practice` dp INNER JOIN `user` us ON (dp.`student_id` = us.`ID`) WHERE us.`login` = ? ) , 'false')"
+    connection.query(query, [tasks.name, tasks.email], (err, results) => {
+        if(!err) {
+            return res.status(200).json({message: "Successfully Added New Task"});
+        } else {
+            return res.status(500).json(err);
+        }
+    })
+})
+
+router.patch('/update', auth.authenticateToken, (req,res) => {
+    let tasks = req.body;
+    console.log(tasks);
+    query = "UPDATE `tasks` SET `name` = ? WHERE `tasks`.`ID` = ?;"
+    connection.query(query, [tasks.name, tasks.id], (err, results) => {
+        if(!err) {
+            return res.status(200).json({message: "Successfully Updated Task"});
+        } else {
+            return res.status(500).json(err);
+        }
+    })
+})
+
+router.patch('/changeStatus', auth.authenticateToken, (req,res) => {
+    let tasks = req.body;
+    console.log(tasks);
+    query = "UPDATE `tasks` SET `status` = ? WHERE `tasks`.`ID` = ?"
+    connection.query(query, [tasks.status, tasks.id], (err, results) => {
+        if(!err) {
+            return res.status(200).json({message: "Successfully Updated Status Task"});
+        } else {
+            return res.status(500).json(err);
+        }
+    })
+})
+
+// delete
+router.post('/delete', auth.authenticateToken, (req, res)=> {
+    let tasks = req.body;
+    console.log(tasks);
+    let query = "delete from `tasks` where `tasks`.`ID` = ?";
+    connection.query(query, [tasks.id], (err, result) => {
+        if(!err) {
+            return res.status(200).json({message : "Tasks Deleted Successfully"})
+        } else {
+            return res.status(500).json(err);
+        }
+    })
+})
 
 module.exports = router
+
+

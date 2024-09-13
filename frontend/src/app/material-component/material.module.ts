@@ -26,6 +26,8 @@ import { StudentViewResultfileComponent } from './student-view-resultfile/studen
 import { UploadFileDocxComponent } from './dialog/upload-file-docx/upload-file-docx.component';
 import { StudentViewDiaryComponent } from './student-view-diary/student-view-diary.component';
 import { TeacherViewPracticeComponent } from './teacher-view-practice/teacher-view-practice.component';
+import { TeacherPracticeMoreInformationComponent } from './dialog/teacher-practice-more-information/teacher-practice-more-information.component';
+import { ManageTasksComponent } from './dialog/manage-tasks/manage-tasks.component';
 
 @NgModule({
   imports: [
@@ -56,7 +58,9 @@ import { TeacherViewPracticeComponent } from './teacher-view-practice/teacher-vi
     StudentViewResultfileComponent,
     UploadFileDocxComponent,
     StudentViewDiaryComponent,
-    TeacherViewPracticeComponent
+    TeacherViewPracticeComponent,
+    TeacherPracticeMoreInformationComponent,
+    ManageTasksComponent
   ]
 })
 export class MaterialComponentsModule {}

@@ -8,6 +8,35 @@ table{
   width: 100%;
 }
 
+.mat-toolbar{
+  background-color: #0374c7;
+  margin: -24px;
+  width: auto;
+  margin-bottom: 10px;
+}
+
+.title-center{
+
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+mat-form-field{
+  padding: 5px;
+}
+
+.float-right{
+  float: right;
+}
+mat-card{
+  padding: 20px;
+}
+table{
+  width: 100%;
+}
+
+
+
 .custom-slide-toggle.mat-slide-toggle {
   --mat-slide-toggle-checked-bar-color: #1abc35; /* Колір повзунка в активному стані */
   --mat-slide-toggle-unchecked-bar-color: #da2323; /* Колір повзунка в неактивному стані */

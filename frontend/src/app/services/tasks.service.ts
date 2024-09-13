@@ -16,21 +16,27 @@ export class TasksService {
       });
   }
 
-  // add(data: any): any{
-  //   return this.httpClient.post(this.url + '/directionofthesis/add', data,
-  //     {headers: new HttpHeaders().set('Content-Type', 'application/json')
-  //     });
-  // }
-  //
-  // update(data: any): any{
-  //   return this.httpClient.patch(this.url + '/directionofthesis/update', data,
-  //     {headers: new HttpHeaders().set('Content-Type', 'application/json')
-  //     });
-  // }
-  //
-  // delete(data: any): any{
-  //   return this.httpClient.post(this.url + '/directionofthesis/delete', data,
-  //     {headers: new HttpHeaders().set('Content-Type', 'application/json')
-  //     });
-  // }
+  add(data: any): any{
+    return this.httpClient.post(this.url + '/tasks/add', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
+  update(data: any): any{
+    return this.httpClient.patch(this.url + '/tasks/update', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
+  delete(data: any): any{
+    return this.httpClient.post(this.url + '/tasks/delete', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
+  changeStatus(data: any): any{
+    return this.httpClient.patch(this.url + '/tasks/changeStatus', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
 }

@@ -27,7 +27,7 @@ router.get('/get', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res)=
 
 router.post('/getForTeacher', auth.authenticateToken, checkRole.checkRoleTeacher, (req, res)=> {
     let informationTeacher = req.body;
-    let query = "SELECT dp.`teacher_id` as teacherID, dp.`student_id` as studentID, dp.`specialty_id` as specialityId, dp.`directionofthesis_id` as directionId, dp.`ID`, us.`name` as student_name, uss.`name` as teacher_name, sp.`name` as specialty_name, dr.`name` as directionofthesis_name, `description` FROM `diploma practice` dp INNER JOIN `user` us ON (us.`ID` = dp.`student_id`) INNER JOIN `user` uss ON (uss.`ID` = dp.`teacher_id`) INNER JOIN `specialty`sp ON (sp.`ID` = dp.`specialty_id`) INNER JOIN `directionofthesis` dr ON (dr.`ID` = dp.`directionofthesis_id`) WHERE uss.`login` = ?";
+    let query = "SELECT dp.`teacher_id` as teacherID, dp.`student_id` as studentID, dp.`specialty_id` as specialityId, dp.`directionofthesis_id` as directionId, dp.`ID`, us.`name` as student_name, uss.`name` as teacher_name, sp.`name` as specialty_name, dr.`name` as directionofthesis_name, `description`, us.`login` as email, us.`contact_number` as contact_number FROM `diploma practice` dp INNER JOIN `user` us ON (us.`ID` = dp.`student_id`) INNER JOIN `user` uss ON (uss.`ID` = dp.`teacher_id`) INNER JOIN `specialty`sp ON (sp.`ID` = dp.`specialty_id`) INNER JOIN `directionofthesis` dr ON (dr.`ID` = dp.`directionofthesis_id`) WHERE uss.`login` = ?";
     connection.query(query,[informationTeacher.login], (err, result)=> {
         if(!err){
             return res.status(200).json(result);

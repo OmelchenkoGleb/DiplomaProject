@@ -1,3 +1,12 @@
+<mat-toolbar color="primary" *ngIf="dialogData?.email">
+  <mat-toolbar-row fxLayout="row">
+    <span class="title-center">Щоденник студента</span>
+    <span class="spacer"></span>
+    <button class="mat-dialog-close" mat-icon-button mat-dialog-close>
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
 <mat-card>
   <b><span>Щоденник з практики</span></b>
   <button mat-icon-button style="background-color: #f1ffde; color: #ffaa68" class="float-right" (click)="handleAddAction()"><mat-icon>attachment_icon</mat-icon></button>

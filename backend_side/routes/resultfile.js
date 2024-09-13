@@ -14,7 +14,7 @@ var checkRole = require('../services/checkRole')
 
 // БАЗОВІ CRUD ЗАПИТИ
 // get
-router.post('/getReport', auth.authenticateToken, checkRole.checkRoleStudent, (req, res)=> {
+router.post('/getReport', auth.authenticateToken, (req, res)=> {
     let resultfile = req.body;
     let query = "SELECT rf.`ID` as `ID`, rf.`filetype_id` as `filetype_id`, rf.`file` as `file`, rf.`filename` as `filename` FROM `resultfile` rf INNER JOIN `user` us ON(us.`ID` = rf.`user_id`) WHERE us.`login` = ? AND rf.`filetype_id` = '2'"
     connection.query(query,[resultfile.login], (err, result)=> {
@@ -27,7 +27,7 @@ router.post('/getReport', auth.authenticateToken, checkRole.checkRoleStudent, (r
 })
 
 // delete
-router.post('/delete', auth.authenticateToken, checkRole.checkRoleStudent, (req, res)=> {
+router.post('/delete', auth.authenticateToken, (req, res)=> {
     let speciality = req.body;
     let query = "delete from `resultfile` where `resultfile`.`ID` = ?";
     connection.query(query, [speciality.id], (err, result) => {
@@ -39,7 +39,7 @@ router.post('/delete', auth.authenticateToken, checkRole.checkRoleStudent, (req,
     })
 })
 
-router.post('/getDiary', auth.authenticateToken, checkRole.checkRoleStudent, (req, res)=> {
+router.post('/getDiary', auth.authenticateToken, (req, res)=> {
     let resultfile = req.body;
     let query = "SELECT rf.`ID` as `ID`, rf.`filetype_id` as `filetype_id`, rf.`file` as `file`, rf.`filename` as `filename` FROM `resultfile` rf INNER JOIN `user` us ON(us.`ID` = rf.`user_id`) WHERE us.`login` = ? AND rf.`filetype_id` = '1'"
     connection.query(query,[resultfile.login], (err, result)=> {
@@ -52,7 +52,7 @@ router.post('/getDiary', auth.authenticateToken, checkRole.checkRoleStudent, (re
 })
 
 // Ендпоінт для отримання файлу за ID
-router.get('/getFile/:id', auth.authenticateToken, checkRole.checkRoleStudent, (req, res)=> {
+router.get('/getFile/:id', auth.authenticateToken, (req, res)=> {
     const fileId = req.params.id;
     let query = "SELECT `filename`, `file` FROM `resultfile` WHERE `ID` = ?"
     connection.query(query, [fileId], (err, result) => {

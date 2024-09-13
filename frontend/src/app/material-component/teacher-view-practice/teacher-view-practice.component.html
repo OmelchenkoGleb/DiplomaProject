@@ -19,19 +19,28 @@
       <th mat-header-cell *matHeaderCellDef>Напрямок</th>
       <td mat-cell *matCellDef ="let  element">{{element.directionofthesis_name}}</td>
     </ng-container>
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef>Опис</th>
-      <td mat-cell *matCellDef ="let  element">{{element.description}}</td>
-    </ng-container>
+<!--    <ng-container matColumnDef="description">-->
+<!--      <th mat-header-cell *matHeaderCellDef>Опис</th>-->
+<!--      <td mat-cell *matCellDef ="let  element">{{element.description}}</td>-->
+<!--    </ng-container>-->
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef>Дії</th>
       <td mat-cell *matCellDef ="let  element" class="action-link">
-<!--        <button mat-icon-button style="background-color: yellowgreen; color: #003366" matTooltip="Редагувати" (click)="handleEditAction(element)">-->
-<!--          <mat-icon>edit_icon</mat-icon>-->
-<!--        </button>-->
-<!--        <button mat-icon-button style="background-color: orangered; color: rgba(5,35,59,0.83)" matTooltip="Видалити" (click)="handleDeleteAction(element)">-->
-<!--          <mat-icon>delete</mat-icon>-->
-<!--        </button>-->
+        <button mat-icon-button style="background-color: #ffffff; color: #003366" matTooltip="Додаткова інформація" (click)="handleViewInformation(element)">
+          <mat-icon>visibility_icon</mat-icon>
+        </button>
+        <button mat-icon-button style="background-color: #ffffff; color: rgba(5,35,59,0.83)" matTooltip="Завдання" (click)="handleViewTasks(element)">
+          <mat-icon>rate_review_icon</mat-icon>
+        </button>
+        <button mat-icon-button style="background-color: #ffffff; color: rgba(5,35,59,0.83)" matTooltip="Звіт" (click)="handleViewReport(element)">
+          <mat-icon>file_copy_icon</mat-icon>
+        </button>
+        <button mat-icon-button style="background-color: #ffffff; color: rgba(5,35,59,0.83)" matTooltip="Щоденник" (click)="handleViewDiary(element)">
+          <mat-icon>insert_drive_file_icon</mat-icon>
+        </button>
+        <button mat-icon-button style="background-color: #ffffff; color: rgba(5,35,59,0.83)" matTooltip="Чат" (click)="handleViewChat(element)">
+          <mat-icon>chat_icon</mat-icon>
+        </button>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

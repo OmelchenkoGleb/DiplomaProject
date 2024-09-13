@@ -1,0 +1,26 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row">
+    <span class="title-center">Розширена інформація про практику студента</span>
+    <span class="spacer"></span>
+    <button class="mat-dialog-close" mat-icon-button mat-dialog-close>
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-dialog-content class="mat-typography">
+  <table id="inforamtion">
+    <tr>
+      <td><b>Студент:</b> {{data.student_name}}</td>
+      <td><b>Напрямок:</b> {{data.directionofthesis_name}}</td>
+    </tr>
+    <tr>
+      <td><b>Cпеціальність:</b> {{data.specialty_name}}</td>
+      <td><b>Електрона адреса:</b> {{data.email}}</td>
+    </tr>
+    <tr>
+      <td><b>Номер телефону:</b> {{data.contact_number}}</td>
+      <td><b>Опис:</b> {{data.description}}</td>
+    </tr>
+
+  </table>
+</mat-dialog-content>
