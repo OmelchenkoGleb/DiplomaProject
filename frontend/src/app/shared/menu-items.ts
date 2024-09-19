@@ -12,13 +12,14 @@ const MENUITEMS = [
   {state: 'admins', name: 'Адміністратори', icon: 'person_icon', role: '3'},
   {state: 'students', name: 'Студенти', icon: 'group_icon', role: '3'},
   {state: 'teachers', name: 'Викладачі', icon: 'group_icon', role: '3'},
-  {state: 'speciality', name: 'Спеціальності', icon: 'layers_icon', role: '3'},
-  {state: 'directionofthesis', name: 'Напрямки практики', icon: ' dvr_icon', role: '3'},
-  {state: 'diplomapractice', name: 'Практика', icon: ' developer_board_icon', role: '3'},
-  {state: 'studenttasks', name: 'Завдання', icon: ' developer_board_icon', role: '1'},
+  {state: 'speciality', name: 'Групи', icon: 'layers_icon', role: '3'},
+  {state: 'directionofthesis', name: 'Напрямки', icon: ' dvr_icon', role: '3'},
+  {state: 'studentChoosePractice', name: 'Обрати Тему', icon: ' insert_drive_file_icon', role: '1'},
+  {state: 'studenttasks', name: 'Календарний План', icon: ' developer_board_icon', role: '1'},
   {state: 'studentResultFileReport', name: 'Звіт', icon: ' file_copy_icon', role: '1'},
   {state: 'studentResultFileDiary', name: 'Щоденник', icon: ' insert_drive_file_icon', role: '1'},
-  {state: 'teacherPractice', name: 'Практика Студентів', icon: ' developer_board_icon', role: '2'}
+  {state: 'diplomapractice', name: 'Нові теми', icon: ' developer_board_icon', role: '2'},
+  {state: 'teacherPractice', name: 'Обрані Теми', icon: ' developer_board_icon', role: '2'}
 ];
 
 @Injectable()
@@ -27,3 +28,4 @@ export class MenuItems {
     return MENUITEMS;
   }
 }
+

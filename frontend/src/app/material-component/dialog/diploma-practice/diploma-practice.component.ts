@@ -8,6 +8,7 @@ import {SpecialityService} from '../../../services/speciality.service';
 import {DiplomaPracticeService} from '../../../services/diploma-practice.service';
 import {UserService} from '../../../services/user.service';
 import {DirectionofthesisService} from '../../../services/directionofthesis.service';
+import {jwtDecode} from "jwt-decode";
 
 @Component({
   selector: 'app-diploma-practice',
@@ -24,13 +25,19 @@ export class DiplomaPracticeComponent implements OnInit {
   action: any = 'Add';
   // tslint:disable-next-line:variable-name
   id_diplomapractice: any;
-  speciality: any = [];
-  students: any = [];
-  teachers: any = [];
   direction: any = [];
+
+  teacherLogin: any;
 
   onAddUser = new EventEmitter();
   onEditUser = new EventEmitter();
+
+  selectedDirection: any;
+  // tslint:disable-next-line:typedef
+  onSelectionChange(direction: any) {
+    // tslint:disable-next-line:triple-equals
+    this.selectedDirection = this.direction.find((element: any) => element.id == direction);
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,81 +54,30 @@ export class DiplomaPracticeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const token: any = localStorage.getItem('token');
+    const tokenPayLoad = jwtDecode(token);
+    // @ts-ignore
+    const email = tokenPayLoad.login;
+    this.teacherLogin = email;
     this.addDiplomaPracticeForm = this.formBuilder.group({
       description: [null, [Validators.required]],
-      specialityId: [null, Validators.required],
-      directionId: [null, Validators.required],
-      studentID: [null, Validators.required],
-      teacherID: [null, Validators.required]
+      directionId: [null, Validators.required]
     });
     if (this.data.action === 'Edit') {
       this.dialogAction = 'Edit';
       this.action = 'Update';
       this.addDiplomaPracticeForm.patchValue(this.data.data);
+      console.log(this.addDiplomaPracticeForm);
     }
-    this.getSpeaciality();
-    this.getDirectionOfThesis();
-    this.getStudents();
-    this.getTeachers();
+    this.getDirectionOfThesisForTeacher();
   }
 
-  getSpeaciality(): any {
+  getDirectionOfThesisForTeacher(): any {
+    const data = {
+      login: this.teacherLogin
+    };
     // @ts-ignore
-    this.specialityService.get().subscribe(
-      (response: any): any => {
-        this.speciality = response;
-      },
-      // tslint:disable-next-line:no-shadowed-variable
-      (error: { error: { message: any; }; }) => {
-        if (error.error?.message) {
-          this.responseMesssage = error.error?.message;
-        } else {
-          this.responseMesssage = GlobalConstants.genericError;
-        }
-        this.scnackbarService.openSnackBar(this.responseMesssage, GlobalConstants.error);
-      }
-    );
-  }
-
-  getStudents(): any {
-    // @ts-ignore
-    this.userService.getStudent().subscribe(
-      (response: any): any => {
-        this.students = response;
-      },
-      // tslint:disable-next-line:no-shadowed-variable
-      (error: { error: { message: any; }; }) => {
-        if (error.error?.message) {
-          this.responseMesssage = error.error?.message;
-        } else {
-          this.responseMesssage = GlobalConstants.genericError;
-        }
-        this.scnackbarService.openSnackBar(this.responseMesssage, GlobalConstants.error);
-      }
-    );
-  }
-
-  getTeachers(): any {
-    // @ts-ignore
-    this.userService.getTeacher().subscribe(
-      (response: any): any => {
-        this.teachers = response;
-      },
-      // tslint:disable-next-line:no-shadowed-variable
-      (error: { error: { message: any; }; }) => {
-        if (error.error?.message) {
-          this.responseMesssage = error.error?.message;
-        } else {
-          this.responseMesssage = GlobalConstants.genericError;
-        }
-        this.scnackbarService.openSnackBar(this.responseMesssage, GlobalConstants.error);
-      }
-    );
-  }
-
-  getDirectionOfThesis(): any {
-    // @ts-ignore
-    this.directionofthesis.get().subscribe(
+    this.directionofthesis.getDirectionForTeacher(data).subscribe(
       (response: any): any => {
         this.direction = response;
       },
@@ -149,10 +105,7 @@ export class DiplomaPracticeComponent implements OnInit {
     const formData = this.addDiplomaPracticeForm.value;
     const data = {
       description: formData.description,
-      speciality_id: formData.specialityId,
-      directionofthesis_id: formData.directionId,
-      student_id: formData.studentID,
-      teacher_id: formData.teacherID
+      directionofthesis_id: formData.directionId
     };
     this.diplomapracticeService.add(data).subscribe(
       (response: any): any => {
@@ -178,10 +131,7 @@ export class DiplomaPracticeComponent implements OnInit {
     const data = {
       id: this.id_diplomapractice,
       description: formData.description,
-      speciality_id: formData.specialityId,
-      directionofthesis_id: formData.directionId,
-      student_id: formData.studentID,
-      teacher_id: formData.teacherID
+      directionofthesis_id: formData.directionId
     };
     console.log(data);
     this.diplomapracticeService.update(data).subscribe(

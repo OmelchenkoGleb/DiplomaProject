@@ -15,6 +15,7 @@ import {
 import {StudentViewTasksComponent} from "../student-view-tasks/student-view-tasks.component";
 import {StudentViewResultfileComponent} from "../student-view-resultfile/student-view-resultfile.component";
 import {StudentViewDiaryComponent} from "../student-view-diary/student-view-diary.component";
+import {ChatViewComponent} from "../chat-view/chat-view.component";
 
 @Component({
   selector: 'app-teacher-view-practice',
@@ -23,10 +24,11 @@ import {StudentViewDiaryComponent} from "../student-view-diary/student-view-diar
 })
 export class TeacherViewPracticeComponent implements OnInit {
 
-  displayedColumns: string[] = ['student_name', 'directionofthesis_name', 'edit'];
+  displayedColumns: string[] = ['student_name', 'directionofthesis_name', 'description', 'edit'];
 
   dataSource: any;
   responseMesssage: any;
+  teacherLogin: any;
   constructor(private dialog: MatDialog,
               private router: Router,
               private diplomapracticeService: DiplomaPracticeService,
@@ -41,6 +43,7 @@ export class TeacherViewPracticeComponent implements OnInit {
     const tokenPayLoad = jwtDecode(token);
     // @ts-ignore
     const email = tokenPayLoad.login;
+    this.teacherLogin = email;
     const data = {
       login: email
     };
@@ -79,10 +82,11 @@ export class TeacherViewPracticeComponent implements OnInit {
   }
 
   handleViewTasks(element: any): any {
+    console.log(element);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '80%';
     dialogConfig.data = {
-      email: element.email
+      email: element.student_email
     };
     const dialogRef = this.dialog.open(StudentViewTasksComponent, dialogConfig);
     this.router.events.subscribe((): any => {
@@ -94,7 +98,7 @@ export class TeacherViewPracticeComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '80%';
     dialogConfig.data = {
-      email: element.email
+      email: element.student_email
     };
     const dialogRef = this.dialog.open(StudentViewResultfileComponent, dialogConfig);
     this.router.events.subscribe((): any => {
@@ -106,7 +110,7 @@ export class TeacherViewPracticeComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '80%';
     dialogConfig.data = {
-      email: element.email
+      email: element.student_email
     };
     const dialogRef = this.dialog.open(StudentViewDiaryComponent, dialogConfig);
     this.router.events.subscribe((): any => {
@@ -115,6 +119,49 @@ export class TeacherViewPracticeComponent implements OnInit {
   }
 
   handleViewChat(element: any): any{
+    console.log(element);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '80%';
+    dialogConfig.data = {
+      studentEmail: element.student_email,
+      teacherLogin: this.teacherLogin,
+      practice_id: element.practice_id
+    };
+    console.log(dialogConfig.data);
+    const dialogRef = this.dialog.open(ChatViewComponent, dialogConfig);
+    this.router.events.subscribe((): any => {
+      dialogRef.close();
+    });
+  }
 
+  handleRemoveStudent(element: any): any{
+    console.log(element);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      message: 'Видалити'
+    };
+    const dialogrefopen = this.dialog.open(ConfirmationComponent, dialogConfig);
+    const sub = dialogrefopen.componentInstance.onEmitStatusChange.subscribe((user) => {
+      dialogrefopen.close();
+      const data = {
+        id: element.practice_id
+      };
+      this.diplomapracticeService.setNullForTeacher(data).subscribe(
+        (response: any): any => {
+          this.responseMesssage = response?.message;
+          this.scnackbarService.openSnackBar(this.responseMesssage, '');
+          this.tableData();
+        },
+        // tslint:disable-next-line:no-shadowed-variable
+        (error: { error: { message: any; }; }) => {
+          if (error.error?.message) {
+            this.responseMesssage = error.error?.message;
+          } else {
+            this.responseMesssage = GlobalConstants.genericError;
+          }
+          this.scnackbarService.openSnackBar(this.responseMesssage, GlobalConstants.error);
+        }
+      );
+    });
   }
 }

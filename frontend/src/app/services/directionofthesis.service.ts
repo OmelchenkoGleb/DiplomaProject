@@ -13,6 +13,11 @@ export class DirectionofthesisService {
   get(data: any): any{
     return this.httpClient.get(this.url + '/directionofthesis/get');
   }
+  getDirectionForTeacher(data: any): any{
+    return this.httpClient.post(this.url + '/directionofthesis/getDirectionForTeacher', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
 
   add(data: any): any{
     return this.httpClient.post(this.url + '/directionofthesis/add', data,

@@ -1,43 +1,61 @@
 <mat-toolbar color="primary" *ngIf="dialogData?.email">
   <mat-toolbar-row fxLayout="row">
-    <span class="title-center">Завдання студента</span>
+    <span class="title-center">Календарний План Студента</span>
     <span class="spacer"></span>
     <button class="mat-dialog-close" mat-icon-button mat-dialog-close>
       <mat-icon>cancel</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
-<mat-card>
-  <b><span>Завдання з практики</span></b>
-  <button *ngIf="dialogData?.email" mat-flat-button style="background-color: #ffaa68; color: white" class="float-right" (click)="handleAddAction()"><mat-icon>local_hospital_icon</mat-icon>   Додати</button>
-</mat-card>
-<hr>
-<mat-card>
-  <mat-form-field appearance="fill">
-    <mat-label>Фільтрування</mat-label>
-    <input matInput (keyup)="applyFilter($event)" #input>
-  </mat-form-field>
-</mat-card>
-<hr>
-<div class="responsive_table">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Опис завдання</th>
-      <td mat-cell *matCellDef ="let  element">{{element.name}}</td>
-    </ng-container>
-    <ng-container matColumnDef="edit">
-      <th mat-header-cell *matHeaderCellDef>Дії</th>
-      <td mat-cell *matCellDef ="let  element" class="action-link">
-        <mat-slide-toggle class="custom-slide-toggle" matTooltip="Викладач зазначає виконано чи ні" [checked] = "element.status"  [disabled]="!dialogData?.email" (change)="onChange($event.checked, element.ID)"></mat-slide-toggle>
-        <button *ngIf="dialogData?.email" mat-icon-button style="background-color: yellowgreen; color: #003366" matTooltip="Редагувати" (click)="handleEditAction(element)">
-          <mat-icon>edit_icon</mat-icon>
-        </button>
-        <button *ngIf="dialogData?.email" mat-icon-button style="background-color: orangered; color: rgba(5,35,59,0.83)" matTooltip="Видалити" (click)="handleDeleteAction(element)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
-  </table>
+
+<div *ngIf="!isPractice && !this.dialogData?.email" class="no-practice">
+  <p>
+    <a [routerLink]="['/main/studentChoosePractice']" class="no-practice-link">
+      <span>Спочатку оберіть тему!</span>
+    </a>
+  </p>
+</div>
+<div *ngIf="isPractice || this.dialogData?.email">
+  <mat-card>
+    <b><span>Календарний План</span></b>
+    <button *ngIf="dialogData?.email" mat-flat-button style="background-color: #ffaa68; color: white" class="float-right" (click)="handleAddAction()"><mat-icon>local_hospital_icon</mat-icon>   Додати</button>
+  </mat-card>
+  <hr>
+  <mat-card>
+    <mat-form-field appearance="fill">
+      <mat-label>Фільтрування</mat-label>
+      <input matInput (keyup)="applyFilter($event)" #input>
+    </mat-form-field>
+  </mat-card>
+  <hr>
+  <div class="responsive_table">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Назва етапів виконання дипломної роботи</th>
+        <td mat-cell *matCellDef ="let  element">{{element.name}}</td>
+      </ng-container>
+      <ng-container matColumnDef="from_date">
+        <th mat-header-cell *matHeaderCellDef>Початкова дата</th>
+        <td mat-cell *matCellDef ="let  element">{{element.from_date | date:'dd.MM.yyyy'}}</td>
+      </ng-container>
+      <ng-container matColumnDef="to_date">
+        <th mat-header-cell *matHeaderCellDef>Кінцева дата</th>
+        <td mat-cell *matCellDef ="let  element">{{element.to_date | date:'dd.MM.yyyy'}}</td>
+      </ng-container>
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef>Дії</th>
+        <td mat-cell *matCellDef ="let  element" class="action-link">
+          <mat-slide-toggle class="custom-slide-toggle" matTooltip="Викладач зазначає виконано чи ні" [checked] = "element.status"  [disabled]="!dialogData?.email" (change)="onChange($event.checked, element.ID)"></mat-slide-toggle>
+          <button *ngIf="dialogData?.email" mat-icon-button style="background-color: yellowgreen; color: #003366" matTooltip="Редагувати" (click)="handleEditAction(element)">
+            <mat-icon>edit_icon</mat-icon>
+          </button>
+          <button *ngIf="dialogData?.email" mat-icon-button style="background-color: orangered; color: rgba(5,35,59,0.83)" matTooltip="Видалити" (click)="handleDeleteAction(element)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns:displayedColumns"></tr>
+    </table>
+  </div>
 </div>

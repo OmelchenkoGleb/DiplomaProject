@@ -28,3 +28,50 @@ mat-form-field{
     color: #a9a9a9; /* Цвет текста для задизейбленной кнопки */
   }
 }
+
+
+
+.direction-info {
+  padding: 16px;
+  margin: 0 auto;
+  max-width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  background-color: #f4f4f4;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+}
+
+.direction-item {
+  margin-bottom: 12px;
+}
+
+.item-content {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  margin-bottom: 8px; /* Отступ между строками */
+}
+
+.label {
+  font-weight: 500;
+  color: #0056b3;
+  margin-right: 8px; /* Пробел между заголовком и значением */
+}
+
+.value {
+  color: #333;
+}
+
+@media (max-width: 600px) {
+  .item-content {
+    grid-template-columns: 1fr; /* Вытягивает содержимое по ширине на маленьких экранах */
+  }
+
+  .label {
+    margin-bottom: 4px; /* Уменьшенный отступ снизу на маленьких экранах */
+  }
+}
+
+

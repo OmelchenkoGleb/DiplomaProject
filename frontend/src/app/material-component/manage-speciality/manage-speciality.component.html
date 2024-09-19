@@ -1,11 +1,11 @@
 <mat-card>
-  <b><span>Керування Спеціальностями</span></b>
+  <b><span>Керування Групами Студентів</span></b>
   <button mat-flat-button style="background-color: #ffaa68; color: white" class="float-right" (click)="handleAddAction()"><mat-icon>local_hospital_icon</mat-icon>   Додати</button>
 </mat-card>
 <hr>
 <mat-card>
   <mat-form-field appearance="fill">
-    <mat-label>Фільтрування</mat-label>
+    <mat-label>Пошук по всім колонкам</mat-label>
     <input matInput (keyup)="applyFilter($event)" #input>
   </mat-form-field>
 </mat-card>
@@ -13,7 +13,7 @@
 <div class="responsive_table">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Назва Спеціальності</th>
+      <th mat-header-cell *matHeaderCellDef>Назва Групи</th>
       <td mat-cell *matCellDef ="let  element">{{element.name}}</td>
     </ng-container>
     <ng-container matColumnDef="edit">

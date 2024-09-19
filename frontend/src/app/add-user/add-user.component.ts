@@ -21,6 +21,7 @@ export class AddUserComponent implements OnInit {
   user_type: any;
   dialogAction: any = 'Add';
   action: any = 'Add';
+  // tslint:disable-next-line:variable-name
   id_user: any;
 
   onAddUser = new EventEmitter();

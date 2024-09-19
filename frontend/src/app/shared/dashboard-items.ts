@@ -9,12 +9,13 @@ export interface Menu{
 
 const DASHBOARDITEMS = [
   {state: '/main/directionofthesis', name: 'Кількість напрямків:', variable_name: 'directionofthesisCount', role: '3'},
-  {state: '/main/speciality', name: 'Кількість спеціальностей:', variable_name: 'specialityCount', role: '3'},
-  {state: '/main/diplomapractice', name: 'Кількість активних практик:', variable_name: 'diplomapracticeCount', role: '3'},
-  {state: '/main/studenttasks', name: 'Занальна кількість тасків:', variable_name: 'tasksCount', role: '1'},
-  {state: '/main/studenttasks', name: 'Кількість виконаних тасків:', variable_name: 'completeTasksCount', role: '1'},
+  {state: '/main/speciality', name: 'Кількість груп:', variable_name: 'specialityCount', role: '3'},
   {state: '/main/teacherPractice', name: 'Кількість практик студентів:', variable_name: 'practiceCount', role: 'not_exist'},
-  {state: '/main/teacherPractice', name: 'Кількість практик студентів:', variable_name: 'practiceCount', role: '2'}
+  {state: '/main/studenttasks', name: 'Загальна кількість етапів:', variable_name: 'tasksCount', role: '1'},
+  {state: '/main/studenttasks', name: 'Кількість завершених етапів:', variable_name: 'completeTasksCount', role: '1'},
+  {state: '/main/teacherPractice', name: 'Кількість практик студентів:', variable_name: 'practiceCount', role: 'not_exist'},
+  {state: '/main/diplomapractice', name: 'Кількість Необраних Тем:', variable_name: 'newThemeCount', role: '2'},
+  {state: '/main/teacherPractice', name: 'Кількість Обраних Тем:', variable_name: 'practiceCount', role: '2'}
 ];
 
 @Injectable()

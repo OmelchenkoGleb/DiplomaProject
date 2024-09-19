@@ -1,0 +1,114 @@
+.float-right{
+  float: right;
+}
+mat-card{
+  padding: 20px;
+}
+table{
+  width: 100%;
+}
+
+/* Основные стили для карточки */
+.practice-card {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.practice-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  display: block;
+  margin-bottom: 10px;
+  color: #00020a; /* Цвет заголовка */
+}
+
+
+.practice-content {
+  padding: 20px;
+}
+
+.practice-responsive-table {
+  width: 100%;
+  overflow-x: auto; /* Для поддержки небольших экранов */
+}
+
+.practice-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.practice-table td {
+  padding: 10px;
+  font-size: 1rem;
+  vertical-align: top;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.practice-table td .label {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Адаптивные стили для разных экранов */
+@media (max-width: 768px) {
+  .practice-table, .practice-table tr, .practice-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .practice-table td {
+    padding: 8px;
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .practice-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #3f51b5;
+  }
+
+  .practice-table td:last-child {
+    border-bottom: none;
+  }
+}
+
+
+.practice-wrapper {
+  padding: 20px;
+  background-color: #fafafa; /* Легкий светлый фон */
+  border-radius: 8px; /* Закругленные углы */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Мягкая тень */
+  border: 1px solid #e0e0e0; /* Тонкая рамка */
+  margin-top: 20px; /* Отступ сверху */
+}
+
+.practice-responsive-table {
+  width: 100%;
+  overflow-x: auto; /* Для поддержки небольших экранов */
+}
+
+.practice-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.practice-table td {
+  padding: 10px;
+  font-size: 1rem;
+  vertical-align: top;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.practice-table td .label {
+  font-weight: 600;
+  color: #333;
+}

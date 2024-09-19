@@ -10,6 +10,7 @@ import {ConfirmationComponent} from '../dialog/confirmation/confirmation.compone
 import {TasksService} from '../../services/tasks.service';
 import {jwtDecode} from 'jwt-decode';
 import {ManageTasksComponent} from '../dialog/manage-tasks/manage-tasks.component';
+import {DiplomaPracticeService} from "../../services/diploma-practice.service";
 
 @Component({
   selector: 'app-student-view-tasks',
@@ -17,21 +18,54 @@ import {ManageTasksComponent} from '../dialog/manage-tasks/manage-tasks.componen
   styleUrls: ['./student-view-tasks.component.scss']
 })
 export class StudentViewTasksComponent implements OnInit {
-
-  displayedColumns: string[] = ['name', 'edit'];
-
-  dataSource: any;
-  responseMesssage: any;
   constructor(private dialog: MatDialog,
               private router: Router,
               private tasksService: TasksService,
               private scnackbarService: ScnackbarService,
+              private diplomapracticeService: DiplomaPracticeService,
               @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: any) { }
+
+  displayedColumns: string[] = ['name', 'from_date', 'to_date', 'edit'];
+
+  dataSource: any;
+  responseMesssage: any;
+
+  studentLogin: any;
+  isPractice = false;
 
   ngOnInit(): void {
     this.tableData();
+    if (!this.dialogData?.email) { this.checkPracticeStudent(); }
   }
-
+  checkPracticeStudent(): any {
+    const token: any = localStorage.getItem('token');
+    const tokenPayLoad = jwtDecode(token);
+    // @ts-ignore
+    const email = tokenPayLoad.login;
+    this.studentLogin = email;
+    const data = {
+      login: this.studentLogin
+    };
+    console.log(data);
+    // @ts-ignore
+    this.diplomapracticeService.checkPracticeForStudent(data).subscribe(
+      (response: any): any => {
+        console.log(response[0]?.ID);
+        if (response[0]?.ID) {
+          this.isPractice = true;
+        }
+      },
+      // tslint:disable-next-line:no-shadowed-variable
+      (error: { error: { message: any; }; }) => {
+        if (error.error?.message) {
+          this.responseMesssage = error.error?.message;
+        } else {
+          this.responseMesssage = GlobalConstants.genericError;
+        }
+        this.scnackbarService.openSnackBar(this.responseMesssage, GlobalConstants.error);
+      }
+    );
+  }
   tableData(): any {
     let data: any;
     if (this.dialogData?.email) {
@@ -76,7 +110,7 @@ export class StudentViewTasksComponent implements OnInit {
     dialogConfig.width = '550px';
     dialogConfig.data = {
       action: 'Add',
-      label_name: 'Додати Завдання',
+      label_name: 'Додати Етап',
       email: this.dialogData?.email
     };
     const dialogRef = this.dialog.open(ManageTasksComponent, dialogConfig);
@@ -96,9 +130,10 @@ export class StudentViewTasksComponent implements OnInit {
     dialogConfig.width = '550px';
     dialogConfig.data = {
       action: 'Edit',
-      label_name: 'Редагувати Завдання',
+      label_name: 'Редагувати Етап',
       data: value
     };
+    console.log(value);
     const dialogRef = this.dialog.open(ManageTasksComponent, dialogConfig);
     this.router.events.subscribe((): any => {
       dialogRef.close();

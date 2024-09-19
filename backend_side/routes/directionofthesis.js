@@ -14,7 +14,7 @@ var checkRole = require('../services/checkRole')
 // БАЗОВІ CRUD ЗАПИТИ
 // get
 router.get('/get', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res)=> {
-  let query = "select * from directionofthesis"
+  let query = "select dr.ID as id, us.`ID` as user_id, sp.`ID` as group_id, us.`Name` as user_name, sp.`Name` as group_name, dr.`name` as name from directionofthesis dr INNER JOIN `user` us ON(dr.`teacher_id` = us.`ID`) INNER JOIN `specialty` sp ON(dr.group_id = sp.`ID`)"
   connection.query(query, (err, result)=> {
     if(!err){
       return res.status(200).json(result);
@@ -23,24 +23,27 @@ router.get('/get', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res)=
     }
   })
 })
+
+router.post('/getDirectionForTeacher', auth.authenticateToken, checkRole.checkRoleTeacher, (req,res) => {
+  let directionofthesis = req.body;
+  console.log(directionofthesis);
+  query = "select dr.ID as id, us.`ID` as user_id, sp.`ID` as group_id, us.`Name` as user_name, sp.`Name` as group_name, dr.`name` as name from directionofthesis dr INNER JOIN `user` us ON(dr.`teacher_id` = us.`ID`) INNER JOIN `specialty` sp ON(dr.group_id = sp.`ID`) WHERE us.`login` = ?"
+  connection.query(query, [directionofthesis.login], (err, results) => {
+    if(!err) {
+      return res.status(200).json(results);
+    } else {
+      return res.status(500).json(err);
+    }
+  })
+})
 // add
 router.post('/add', auth.authenticateToken, checkRole.checkRoleAdmin, (req,res) => {
   let directionofthesis = req.body;
-  query = "select * from directionofthesis where name=?"
-  connection.query(query, [directionofthesis.name], (err, results) => {
-    if (!err) {
-      if(results.length <= 0) {
-        query = "INSERT INTO `directionofthesis` (`name`) VALUES (?);"
-        connection.query(query, [directionofthesis.name], (err, results) => {
-          if(!err) {
-            return res.status(200).json({message: "Successfully Added New Direction Of Thesis"});
-          } else {
-            return res.status(500).json(err);
-          }
-        })
-      } else {
-        return res.status(400).json({message: "Direction Of Thesis Already Exist"});
-      }
+  console.log(directionofthesis);
+  query = "INSERT INTO `directionofthesis` (`ID`, `name`, `teacher_id`, `group_id`) VALUES (NULL, ?, ?, ?)"
+  connection.query(query, [directionofthesis.name, directionofthesis.teacher_id, directionofthesis.group_id], (err, results) => {
+    if(!err) {
+      return res.status(200).json({message: "Successfully Added New Direction Of Thesis"});
     } else {
       return res.status(500).json(err);
     }
@@ -49,24 +52,13 @@ router.post('/add', auth.authenticateToken, checkRole.checkRoleAdmin, (req,res) 
 // update
 router.patch('/update', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res)=> {
   let directionofthesis = req.body;
-  query = "select * from directionofthesis where name=?"
-  connection.query(query, [directionofthesis.name], (err, results) => {
-    if (!err) {
-      if(results.length <= 0) {
-        let query = "UPDATE `directionofthesis` SET `name` = ? WHERE `directionofthesis`.`ID` = ?"
-        connection.query(query,[directionofthesis.name, directionofthesis.id], (err, result)=> {
-          if(!err){
-            if (result.afffectedRows == 0) {
-              return res.status(404).json({message : "Direction Of Thesis ID does not found"});
-            } else {
-              return res.status(200).json({message : "Direction Of Thesis Updated Successfully"});
-            }
-          } else {
-            return res.status(500).json(err);
-          }
-        })
+  let query = "UPDATE `directionofthesis` SET `name` = ?, `teacher_id` = ?, `group_id` = ? WHERE `directionofthesis`.`ID` = ?"
+  connection.query(query,[directionofthesis.name, directionofthesis.teacher_id, directionofthesis.group_id, directionofthesis.id], (err, result)=> {
+    if(!err){
+      if (result.afffectedRows == 0) {
+        return res.status(404).json({message : "Direction Of Thesis ID does not found"});
       } else {
-        return res.status(400).json({message: "Direction Of Thesis Already Exist"});
+        return res.status(200).json({message : "Direction Of Thesis Updated Successfully"});
       }
     } else {
       return res.status(500).json(err);

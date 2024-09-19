@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import {ConfirmationComponent} from '../../../material-component/dialog/confirmation/confirmation.component';
 import {ChangePasswordComponent} from "../../../material-component/dialog/change-password/change-password.component";
 import {jwtDecode} from "jwt-decode";
+import {ChatViewComponent} from "../../../material-component/chat-view/chat-view.component";
 
 @Component({
   selector: 'app-header',
@@ -14,13 +15,16 @@ export class AppHeaderComponent {
   role: any;
   login = '';
   style: any;
+  // tslint:disable-next-line:variable-name
+  user_type: any;
   constructor(private router: Router,
               private dialog: MatDialog) {
     const token: any = localStorage.getItem('token');
-    const tokenPayLoad = jwtDecode(token);
+    const tokenPayLoad: any = jwtDecode(token);
     // @ts-ignore
     const email = tokenPayLoad.login;
     this.login = email;
+    this.user_type = tokenPayLoad.user_type;
   }
 
   logout(): any{
@@ -41,6 +45,15 @@ export class AppHeaderComponent {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '550px';
     this.dialog.open(ChangePasswordComponent, dialogConfig);
+  }
+
+  openChat(): any{
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '80%';
+    const dialogRef = this.dialog.open(ChatViewComponent, dialogConfig);
+    this.router.events.subscribe((): any => {
+      dialogRef.close();
+    });
   }
 
 }

@@ -125,7 +125,8 @@ router.get('/getAdmins', auth.authenticateToken, checkRole.checkRoleAdmin, (req,
 });
 
 router.get('/getStudents', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res) => {
-  var query = "select id, login as email, name, contact_number as contactNumber, user_type, password from user where user_type = '1'"
+  //var query = "SELECT us.`ID` as id, gm.`ID`, us.login as email, us.name, us.contact_number as contactNumber, us.user_type, us.password, sp.name as `group`, sp.`ID` as `groupID` FROM `group_member` gm INNER JOIN `user` us ON (gm.`student_id` = us.`ID`) INNER JOIN `specialty` sp ON (gm.`specialty_id` = sp.`ID`)"
+  var query = "SELECT us.`ID` as id, gm.`ID`, us.login as email, us.name, us.contact_number as contactNumber, us.user_type, us.password, sp.name as `group`, sp.`ID` as `groupID` FROM `user` us LEFT JOIN `group_member` gm ON (gm.`student_id` = us.`ID`) LEFT JOIN `specialty` sp ON (gm.`specialty_id` = sp.`ID`) WHERE us.`user_type` = 1";
   connection.query(query, (err, results) => {
     if(!err) {
       return res.status(200).json(results);
@@ -157,8 +158,21 @@ router.post('/add', auth.authenticateToken, checkRole.checkRoleAdmin, (req,res) 
         query = "INSERT INTO `user` (`Name`, `contact_number`, `user_type`, `login`, `password`) VALUES (?,?,?,?,?);"
         connection.query(query, [user.name, user.contactNumber, user.user_type, user.email, user.password], (err, results) => {
           if(!err) {
-            console.log("Successfully Registered");
-            return res.status(200).json({message: "Successfully Registered"});
+            if (user.user_type == '1') {
+              query = "INSERT INTO `group_member` (`ID`, `student_id`, `specialty_id`) VALUES (NULL, ?, ?);"
+              connection.query(query, [results.insertId, user.groupID], (err, results) => {
+                if(!err) {
+                  console.log("Successfully Registered");
+                  return res.status(200).json({message: "Successfully Registered"});
+                } else {
+                  console.log(err);
+                  return res.status(500).json(err);
+                }
+              })
+            } else {
+              console.log("Successfully Registered");
+              return res.status(200).json({message: "Successfully Registered"});
+            }
           } else {
             console.log(err);
             return res.status(500).json(err);
@@ -188,7 +202,28 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRoleAdmin, (req, 
             if (result.afffectedRows == 0) {
               return res.status(404).json({message : "User ID does not found"});
             } else {
-              return res.status(200).json({message : "User Updated Successfully"});
+              if (user.user_type == '1') {
+                let query = "UPDATE `group_member` SET `specialty_id` = ? WHERE `group_member`.`student_id` = ?;"
+                connection.query(query,[user.groupId, user.id], (err, result)=> {
+                  if(!err){
+                    if (result.changedRows == 0) {
+                      query = "INSERT INTO `group_member` (`ID`, `student_id`, `specialty_id`) VALUES (NULL, ?, ?);"
+                      connection.query(query, [user.id, user.groupId], (err, results) => {
+                        if(!err) {
+                          console.log("Successfully Registered");
+                          return res.status(200).json({message: "Successfully Registered"});
+                        } else {
+                          console.log(err);
+                          return res.status(500).json(err);
+                        }
+                      })
+                    }
+                    //return res.status(200).json({message : "User Updated Successfully"});
+                  } else {
+                    return res.status(500).json(err);
+                  }
+                })
+              } else return res.status(200).json({message : "User Updated Successfully"});
             }
           } else {
             return res.status(500).json(err);

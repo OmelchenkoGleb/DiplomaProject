@@ -40,12 +40,16 @@ export class ManageTasksComponent implements OnInit {
 
   ngOnInit(): void {
     this.addTasksForm = this.formBuilder.group({
-      name: [null, [Validators.required]]
+      name: [null, [Validators.required]],
+      from_date: [null, [Validators.required]],
+      to_date: [null, [Validators.required]]
     });
     if (this.data.action === 'Edit') {
       this.dialogAction = 'Edit';
       this.action = 'Update';
+      console.log(this.data.data);
       this.addTasksForm.patchValue(this.data.data);
+      console.log(this.addTasksForm);
     }
   }
 
@@ -61,8 +65,11 @@ export class ManageTasksComponent implements OnInit {
     const formData = this.addTasksForm.value;
     const data = {
       name: formData.name,
-      email: this.data.email
+      email: this.data.email,
+      from_date: formData.from_date,
+      to_date: formData.to_date
     };
+    console.log(data);
     this.tasksService.add(data).subscribe(
       (response: any): any => {
         this.dialogRef.close();
@@ -86,7 +93,9 @@ export class ManageTasksComponent implements OnInit {
     const formData = this.addTasksForm.value;
     const data = {
       name: formData.name,
-      id: this.id_tasks
+      id: this.id_tasks,
+      from_date: formData.from_date,
+      to_date: formData.to_date
     };
     console.log(data);
     this.tasksService.update(data).subscribe(

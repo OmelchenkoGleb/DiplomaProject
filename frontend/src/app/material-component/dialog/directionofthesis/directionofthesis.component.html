@@ -7,6 +7,18 @@
   <form [formGroup]="addDirectionForm">
     <div fxFlex fxLayout="column">
       <mat-form-field appearance="fill" fxFlex>
+        <mat-label>Викладач</mat-label>
+        <mat-select formControlName="user_id">
+          <mat-option *ngFor="let teacher of teachers" [value]="teacher.id">{{teacher.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" fxFlex>
+        <mat-label>Група</mat-label>
+        <mat-select formControlName="group_id">
+          <mat-option *ngFor="let group of groups" [value]="group.ID">{{group.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" fxFlex>
         <mat-label>Назва</mat-label>
         <input matInput formControlName="name" required>
         <mat-error *ngIf="addDirectionForm.controls.name.touched && addDirectionForm.controls.name.invalid">

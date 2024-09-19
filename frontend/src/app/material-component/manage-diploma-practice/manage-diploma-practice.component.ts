@@ -7,6 +7,7 @@ import {GlobalConstants} from '../../shared/global-constants';
 import {ConfirmationComponent} from '../dialog/confirmation/confirmation.component';
 import {DiplomaPracticeService} from '../../services/diploma-practice.service';
 import {DiplomaPracticeComponent} from '../dialog/diploma-practice/diploma-practice.component';
+import {jwtDecode} from "jwt-decode";
 
 @Component({
   selector: 'app-manage-diploma-practice',
@@ -15,10 +16,11 @@ import {DiplomaPracticeComponent} from '../dialog/diploma-practice/diploma-pract
 })
 export class ManageDiplomaPracticeComponent implements OnInit {
 
-  displayedColumns: string[] = ['teacher_name', 'student_name', 'specialty_name', 'directionofthesis_name', 'description', 'edit'];
+  displayedColumns: string[] = ['group_name', 'directionofthesis_name', 'description', 'edit'];
 
   dataSource: any;
   responseMesssage: any;
+  teacherLogin: any;
   constructor(private dialog: MatDialog,
               private router: Router,
               private diplomapracticeService: DiplomaPracticeService,
@@ -29,9 +31,16 @@ export class ManageDiplomaPracticeComponent implements OnInit {
   }
 
   tableData(): any {
-
+    const token: any = localStorage.getItem('token');
+    const tokenPayLoad = jwtDecode(token);
     // @ts-ignore
-    this.diplomapracticeService.get().subscribe(
+    const email = tokenPayLoad.login;
+    this.teacherLogin = email;
+    const data = {
+      login: email
+    };
+    // @ts-ignore
+    this.diplomapracticeService.get(data).subscribe(
       (response: any): any => {
         console.log(response);
         this.dataSource = new MatTableDataSource(response);
@@ -58,7 +67,7 @@ export class ManageDiplomaPracticeComponent implements OnInit {
     dialogConfig.width = '850px';
     dialogConfig.data = {
       action: 'Add',
-      label_name: 'Створення практики для студента'
+      label_name: 'Створення нової теми'
     };
     const dialogRef = this.dialog.open(DiplomaPracticeComponent, dialogConfig);
     this.router.events.subscribe((): any => {
@@ -73,12 +82,14 @@ export class ManageDiplomaPracticeComponent implements OnInit {
 
   handleEditAction(value: any): any{
     const dialogConfig = new MatDialogConfig();
+    value.name = value.directionofthesis_name;
     dialogConfig.width = '850px';
     dialogConfig.data = {
       action: 'Edit',
-      label_name: 'Редагувати дані про практику студента',
+      label_name: 'Редагувати Тему',
       data: value
     };
+    console.log(value);
     const dialogRef = this.dialog.open(DiplomaPracticeComponent, dialogConfig);
     this.router.events.subscribe((): any => {
       dialogRef.close();

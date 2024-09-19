@@ -22,6 +22,7 @@ export class UserService {
   }
 
   add(data: any): any{
+    console.log(data);
     return this.httpClient.post(this.url + '/user/add', data,
       {headers: new HttpHeaders().set('Content-Type', 'application/json')
       });

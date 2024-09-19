@@ -17,8 +17,10 @@ import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/h
 import { AddUserComponent } from './add-user/add-user.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
-import {TokenInterceptorInterceptor} from "./services/token-interceptor.interceptor";
+import {TokenInterceptorInterceptor} from './services/token-interceptor.interceptor';
+import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
 
+// const config: SocketIoConfig = { url: 'http://localhost:8090', options: { transports: ['websocket'], withCredentials: true } };
 
 
 @NgModule({
@@ -42,7 +44,8 @@ import {TokenInterceptorInterceptor} from "./services/token-interceptor.intercep
     MaterialModule,
     FlexLayoutModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    // SocketIoModule.forRoot(config)
   ],
   providers: [HttpClientModule, {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorInterceptor, multi: true}],
   bootstrap: [AppComponent]

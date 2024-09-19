@@ -14,8 +14,7 @@
     box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   "
-      (mouseover)="this.style.transform='scale(1.05)'; this.style.boxShadow='0px 6px 12px rgba(0, 0, 0, 0.2)';"
-      (mouseout)="this.style.transform='scale(1)'; this.style.boxShadow='0px 4px 6px rgba(0, 0, 0, 0.1)';"
+
   >
     {{login}}
   </h2>
@@ -24,5 +23,8 @@
   </button>
   <button mat-menu-item (click)="logout()">
     <mat-icon>exit_to_app</mat-icon> Вийти
+  </button>
+  <button *ngIf="user_type == '1'" mat-menu-item (click)="openChat()">
+    <mat-icon>chat</mat-icon> Чат з керівником
   </button>
 </mat-menu>

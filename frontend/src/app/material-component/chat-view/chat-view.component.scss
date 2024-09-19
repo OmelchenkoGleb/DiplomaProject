@@ -1,0 +1,117 @@
+.float-right{
+  float: right;
+}
+mat-card{
+  padding: 20px;
+}
+table{
+  width: 100%;
+}
+
+.mat-toolbar{
+  background-color: #0374c7;
+  margin: -24px;
+  width: auto;
+  margin-bottom: 10px;
+}
+
+.title-center{
+
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+mat-form-field{
+  padding: 5px;
+}
+
+.float-right{
+  float: right;
+}
+mat-card{
+  padding: 20px;
+}
+table{
+  width: 100%;
+}
+
+
+
+
+.chat-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.messages-container {
+  max-height: 400px;
+  overflow-y: scroll;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.message {
+  margin-bottom: 10px;
+}
+
+.input-container {
+  display: flex;
+}
+
+.message-input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.send-button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: #0056b3;
+}
+
+
+.no-practice {
+  padding: 20px;
+  background-color: #fbe9e7; /* Легкий красноватый фон */
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid #ffab91; /* Тонкая рамка в тон фона */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Мягкая тень */
+  margin-top: 20px;
+}
+
+.no-practice p {
+  margin: 0;
+}
+
+.no-practice-link {
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: #d84315; /* Оранжево-красный текст для ссылки */
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.no-practice-link:hover {
+  color: #bf360c; /* Более темный цвет при наведении */
+}
+
+.no-practice span {
+  padding: 10px;
+  display: inline-block;
+}

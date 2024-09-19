@@ -11,8 +11,35 @@ export class DiplomaPracticeService {
   constructor(private httpClient: HttpClient) { }
 
   get(data: any): any{
-    return this.httpClient.get(this.url + '/diploma_practice/get');
+    return this.httpClient.post(this.url + '/diploma_practice/get', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
   }
+
+  checkPracticeForStudent(data: any): any{
+    return this.httpClient.post(this.url + '/diploma_practice/checkPracticeForStudent', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
+  setStudent(data: any): any{
+    return this.httpClient.post(this.url + '/diploma_practice/setStudent', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
+  setNullForTeacher(data: any): any{
+    return this.httpClient.post(this.url + '/diploma_practice/setNullForTeacher', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
+  getForStudent(data: any): any{
+    return this.httpClient.post(this.url + '/diploma_practice/getForStudent', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
 
   getForTeacher(data: any): any{
     return this.httpClient.post(this.url + '/diploma_practice/getForTeacher', data,

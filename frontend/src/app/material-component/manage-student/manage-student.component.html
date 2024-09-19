@@ -5,15 +5,19 @@
 <hr>
 <mat-card>
   <mat-form-field appearance="fill">
-    <mat-label>Фільтрування</mat-label>
+    <mat-label>Пошук по всім колонкам</mat-label>
     <input matInput (keyup)="applyFilter($event)" #input>
   </mat-form-field>
 </mat-card>
 <hr>
 <div class="responsive_table">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="group">
+      <th mat-header-cell *matHeaderCellDef>Група</th>
+      <td mat-cell *matCellDef ="let  element">{{element.group}}</td>
+    </ng-container>
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Назва користувача</th>
+      <th mat-header-cell *matHeaderCellDef>ФІО</th>
       <td mat-cell *matCellDef ="let  element">{{element.name}}</td>
     </ng-container>
     <ng-container matColumnDef="contactNumber">

@@ -7,6 +7,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {GlobalConstants} from "../../shared/global-constants";
 import {AddUserComponent} from "../../add-user/add-user.component";
 import {ConfirmationComponent} from "../dialog/confirmation/confirmation.component";
+import {AddStudentComponent} from "../dialog/add-student/add-student.component";
 
 @Component({
   selector: 'app-manage-student',
@@ -15,7 +16,7 @@ import {ConfirmationComponent} from "../dialog/confirmation/confirmation.compone
 })
 export class ManageStudentComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'contactNumber', 'email', 'password', 'edit'];
+  displayedColumns: string[] = ['group', 'name', 'contactNumber', 'email', 'password', 'edit'];
 
   dataSource: any;
   responseMesssage: any;
@@ -60,7 +61,7 @@ export class ManageStudentComponent implements OnInit {
       label_name: 'Додати Студента',
       user_type: '1'
     };
-    const dialogRef = this.dialog.open(AddUserComponent, dialogConfig);
+    const dialogRef = this.dialog.open(AddStudentComponent, dialogConfig);
     this.router.events.subscribe((): any => {
       dialogRef.close();
     });
@@ -80,7 +81,7 @@ export class ManageStudentComponent implements OnInit {
       user_type: '1',
       data: value
     };
-    const dialogRef = this.dialog.open(AddUserComponent, dialogConfig);
+    const dialogRef = this.dialog.open(AddStudentComponent, dialogConfig);
     this.router.events.subscribe((): any => {
       dialogRef.close();
     });
@@ -99,6 +100,7 @@ export class ManageStudentComponent implements OnInit {
     const dialogrefopen = this.dialog.open(ConfirmationComponent, dialogConfig);
     const sub = dialogrefopen.componentInstance.onEmitStatusChange.subscribe((user) => {
       dialogrefopen.close();
+      console.log(element.id);
       const data = {
         id: element.id
       };

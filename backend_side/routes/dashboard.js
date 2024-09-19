@@ -86,20 +86,33 @@ router.post('/infoForStudent', auth.authenticateToken , (req, res)=> {
 
 
 router.post('/infoForTeacher', auth.authenticateToken , (req, res)=> {
+  var newThemeCount
   var practiceCount;
+
   let info_regarding_teacher = req.body;
-  query = "SELECT COUNT(*) AS practiceCount FROM `diploma practice` dp INNER JOIN `user` us ON us.`ID` = dp.`teacher_id` WHERE us.`login` = ?"
-  connection.query(query,[info_regarding_teacher.login], (err, result)=> {
-    if(!err){
-      practiceCount = result[0].practiceCount;
-      var data = {
-        practiceCount: practiceCount
+  var query = "SELECT COUNT(*) as practiceCount FROM `diploma practice` dp INNER JOIN `directionofthesis` dr ON (dr.`ID` = dp.`directionofthesis_id`) INNER JOIN `specialty` sp ON (sp.`ID` = dr.`group_id`) INNER JOIN `user` uss ON (uss.`ID` = dr.`teacher_id`) WHERE uss.`login` = ? AND dp.`student_id` IS NULL"
+    connection.query(query,[info_regarding_teacher.login], (err, result)=> {
+      if(!err){
+        practiceCount = result[0].practiceCount;
+      } else {
+        return res.status(500).json(err);
       }
-      return res.status(200).json(data)
-    } else {
-      return res.status(500).json(err);
-    }
-  })
+    })
+
+
+    query = "SELECT COUNT(*) as newThemeCount FROM `diploma practice` dp INNER JOIN `user` us ON (us.`ID` = dp.`student_id`) INNER JOIN `directionofthesis` dr ON (dr.`ID` = dp.`directionofthesis_id`) INNER JOIN `specialty` sp ON (sp.`ID` = dr.`group_id`) INNER JOIN `user` uss ON (uss.`ID` = dr.`teacher_id`) WHERE uss.`login` = ?"
+    connection.query(query,[info_regarding_teacher.login], (err, result)=> {
+      if(!err){
+        newThemeCount = result[0].newThemeCount;
+        var data = {
+          newThemeCount: practiceCount,
+          practiceCount: newThemeCount
+        }
+        return res.status(200).json(data)
+      } else {
+        return res.status(500).json(err);
+      }
+    })
 })
 
 

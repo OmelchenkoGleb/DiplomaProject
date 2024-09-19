@@ -59,7 +59,7 @@ export class ManageSpecialityComponent implements OnInit {
     dialogConfig.width = '550px';
     dialogConfig.data = {
       action: 'Add',
-      label_name: 'Додати Спеціальность'
+      label_name: 'Додати Групу'
     };
     const dialogRef = this.dialog.open(SpecialityComponent, dialogConfig);
     this.router.events.subscribe((): any => {
@@ -77,7 +77,7 @@ export class ManageSpecialityComponent implements OnInit {
     dialogConfig.width = '550px';
     dialogConfig.data = {
       action: 'Edit',
-      label_name: 'Редагувати назву Спеціальності',
+      label_name: 'Редагувати назву Групи',
       data: value
     };
     const dialogRef = this.dialog.open(SpecialityComponent, dialogConfig);

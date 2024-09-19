@@ -28,18 +28,23 @@ import { StudentViewDiaryComponent } from './student-view-diary/student-view-dia
 import { TeacherViewPracticeComponent } from './teacher-view-practice/teacher-view-practice.component';
 import { TeacherPracticeMoreInformationComponent } from './dialog/teacher-practice-more-information/teacher-practice-more-information.component';
 import { ManageTasksComponent } from './dialog/manage-tasks/manage-tasks.component';
+import { ChatViewComponent } from './chat-view/chat-view.component';
+import { AddStudentComponent } from './dialog/add-student/add-student.component';
+import { StudentViewPracticeComponent } from './student-view-practice/student-view-practice.component';
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(MaterialRoutes),
-    MaterialModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FlexLayoutModule,
-    CdkTableModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(MaterialRoutes),
+        MaterialModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FlexLayoutModule,
+        CdkTableModule,
+        SharedModule
+    ],
   providers: [],
   declarations: [
     ViewBillProductsComponent,
@@ -60,7 +65,10 @@ import { ManageTasksComponent } from './dialog/manage-tasks/manage-tasks.compone
     StudentViewDiaryComponent,
     TeacherViewPracticeComponent,
     TeacherPracticeMoreInformationComponent,
-    ManageTasksComponent
+    ManageTasksComponent,
+    ChatViewComponent,
+    AddStudentComponent,
+    StudentViewPracticeComponent
   ]
 })
 export class MaterialComponentsModule {}

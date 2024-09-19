@@ -14,6 +14,20 @@
           <span *ngIf="addTasksForm.controls.name.errors.pattern">Ви вели неправильну інформацію.</span>
         </mat-error>
       </mat-form-field>
+      <mat-form-field appearance="fill" fxFlex>
+        <mat-label>Початкова Дата</mat-label>
+        <input matInput type="date" formControlName="from_date" required>
+        <mat-error *ngIf="addTasksForm.controls.from_date.touched && addTasksForm.controls.from_date.invalid">
+          <span *ngIf="addTasksForm.controls.from_date.errors.required">Це поле є обов'язковим для заповнення.</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" fxFlex>
+        <mat-label>Початкова Дата</mat-label>
+        <input matInput type="date" formControlName="to_date" required>
+        <mat-error *ngIf="addTasksForm.controls.to_date.touched && addTasksForm.controls.to_date.invalid">
+          <span *ngIf="addTasksForm.controls.to_date.errors.required">Це поле є обов'язковим для заповнення.</span>
+        </mat-error>
+      </mat-form-field>
     </div>
   </form>
 </mat-dialog-content>

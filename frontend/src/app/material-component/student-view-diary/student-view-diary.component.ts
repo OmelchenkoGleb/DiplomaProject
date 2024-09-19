@@ -8,6 +8,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {GlobalConstants} from "../../shared/global-constants";
 import {UploadFileDocxComponent} from "../dialog/upload-file-docx/upload-file-docx.component";
 import {ConfirmationComponent} from "../dialog/confirmation/confirmation.component";
+import {DiplomaPracticeService} from "../../services/diploma-practice.service";
 
 @Component({
   selector: 'app-student-view-diary',
@@ -21,14 +22,47 @@ export class StudentViewDiaryComponent implements OnInit {
   dataSource: any;
   responseMesssage: any;
   email: any;
+  studentLogin: any;
+  isPractice = false;
   constructor(private dialog: MatDialog,
               private router: Router,
               private resultfile: ResultfileService,
               private scnackbarService: ScnackbarService,
+              private diplomapracticeService: DiplomaPracticeService,
               @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: any) { }
 
   ngOnInit(): void {
     this.tableData();
+    if (!this.dialogData?.email) { this.checkPracticeStudent(); }
+  }
+  checkPracticeStudent(): any {
+    const token: any = localStorage.getItem('token');
+    const tokenPayLoad = jwtDecode(token);
+    // @ts-ignore
+    const email = tokenPayLoad.login;
+    this.studentLogin = email;
+    const data = {
+      login: this.studentLogin
+    };
+    console.log(data);
+    // @ts-ignore
+    this.diplomapracticeService.checkPracticeForStudent(data).subscribe(
+      (response: any): any => {
+        console.log(response[0]?.ID);
+        if (response[0]?.ID) {
+          this.isPractice = true;
+        }
+      },
+      // tslint:disable-next-line:no-shadowed-variable
+      (error: { error: { message: any; }; }) => {
+        if (error.error?.message) {
+          this.responseMesssage = error.error?.message;
+        } else {
+          this.responseMesssage = GlobalConstants.genericError;
+        }
+        this.scnackbarService.openSnackBar(this.responseMesssage, GlobalConstants.error);
+      }
+    );
   }
 
   tableData(): any {

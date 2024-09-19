@@ -7,7 +7,7 @@ import {GlobalConstants} from '../../shared/global-constants';
 import {SpecialityComponent} from '../dialog/speciality/speciality.component';
 import {ConfirmationComponent} from '../dialog/confirmation/confirmation.component';
 import {DirectionofthesisService} from '../../services/directionofthesis.service';
-import {DirectionofthesisComponent} from "../dialog/directionofthesis/directionofthesis.component";
+import {DirectionofthesisComponent} from '../dialog/directionofthesis/directionofthesis.component';
 
 @Component({
   selector: 'app-manage-directionofthesis',
@@ -16,7 +16,7 @@ import {DirectionofthesisComponent} from "../dialog/directionofthesis/directiono
 })
 export class ManageDirectionofthesisComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'edit'];
+  displayedColumns: string[] = ['user_name', 'group_name', 'name', 'edit'];
 
   dataSource: any;
   responseMesssage: any;
@@ -73,6 +73,7 @@ export class ManageDirectionofthesisComponent implements OnInit {
   }
 
   handleEditAction(value: any): any{
+    console.log(value);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '550px';
     dialogConfig.data = {
@@ -92,6 +93,7 @@ export class ManageDirectionofthesisComponent implements OnInit {
   }
 
   handleDeleteAction(element: any): any{
+    console.log(element);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       message: 'Видалити'
@@ -100,7 +102,7 @@ export class ManageDirectionofthesisComponent implements OnInit {
     const sub = dialogrefopen.componentInstance.onEmitStatusChange.subscribe((user) => {
       dialogrefopen.close();
       const data = {
-        id: element.ID
+        id: element.id
       };
       this.directionService.delete(data).subscribe(
         (response: any): any => {

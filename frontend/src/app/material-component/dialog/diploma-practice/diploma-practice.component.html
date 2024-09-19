@@ -6,37 +6,17 @@
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="addDiplomaPracticeForm">
     <div fxFlex fxLayout="column">
+      <mat-form-field appearance="fill" fxFlex>
+        <mat-label>Напрямок</mat-label>
+        <mat-select formControlName="directionId" (selectionChange)="onSelectionChange($event.value)">
+          <mat-option *ngFor="let dir of direction" [value]="dir.id">
+            {{ dir.group_name }} - {{ dir.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
       <div fxLayout = "row wrap">
         <mat-form-field appearance="fill" fxFlex>
-          <mat-label>Викладач</mat-label>
-          <mat-select formControlName="teacherID">
-            <mat-option *ngFor="let teacher of teachers" [value]="teacher.id">{{teacher.name}} - {{teacher.email}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="fill" fxFlex>
-          <mat-label>Студент</mat-label>
-          <mat-select formControlName="studentID">
-            <mat-option *ngFor="let student of students" [value]="student.id">{{student.name}} - {{student.email}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div fxLayout = "row wrap">
-        <mat-form-field appearance="fill" fxFlex>
-          <mat-label>Cпеціальність</mat-label>
-          <mat-select formControlName="specialityId">
-            <mat-option *ngFor="let specialit of speciality" [value]="specialit.ID">{{specialit.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="fill" fxFlex>
-          <mat-label>Напрямок</mat-label>
-          <mat-select formControlName="directionId">
-            <mat-option *ngFor="let dir of direction" [value]="dir.ID">{{dir.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div fxLayout = "row wrap">
-        <mat-form-field appearance="fill" fxFlex>
-          <mat-label>Опис</mat-label>
+          <mat-label>Тема</mat-label>
           <textarea matInput formControlName="description" required rows="1" (input)="autoResize($event)"></textarea>
           <mat-error *ngIf="addDiplomaPracticeForm.controls.description.touched && addDiplomaPracticeForm.controls.description.invalid">
             <span *ngIf="addDiplomaPracticeForm.controls.description.errors.required">Це поле э обовёязковим для заповнення.</span>
@@ -44,7 +24,16 @@
           </mat-error>
         </mat-form-field>
       </div>
-
+      <div class="direction-info" *ngIf="selectedDirection">
+        <div class="direction-item">
+          <span class="label">Група:</span>
+          <span class="value">{{ selectedDirection.group_name }}</span>
+        </div>
+        <div class="direction-item">
+          <span class="label">Напрямок:</span>
+          <span class="value">{{ selectedDirection.name }}</span>
+        </div>
+      </div>
     </div>
   </form>
 </mat-dialog-content>

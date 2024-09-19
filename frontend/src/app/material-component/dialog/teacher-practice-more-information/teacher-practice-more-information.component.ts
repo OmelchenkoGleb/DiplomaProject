@@ -8,7 +8,7 @@ import {TeacherViewPracticeComponent} from "../../teacher-view-practice/teacher-
   styleUrls: ['./teacher-practice-more-information.component.scss']
 })
 export class TeacherPracticeMoreInformationComponent implements OnInit {
-  displayColumns = ['student_name', 'specialty_name', 'directionofthesis_name', 'description', 'contact_number', 'email'];
+  displayColumns = ['student_name', 'group_name', 'directionofthesis_name', 'description', 'contact_number', 'email'];
   dataSource: any;
   data: any;
   constructor(@Inject(MAT_DIALOG_DATA) public dialogData: any,

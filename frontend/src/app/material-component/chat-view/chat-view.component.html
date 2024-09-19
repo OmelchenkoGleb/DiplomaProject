@@ -1,0 +1,43 @@
+<div *ngIf="!isPractice && !this.dialogData?.practice_id" class="no-practice">
+  <p>
+    <a [routerLink]="['/main/studentChoosePractice']" class="no-practice-link">
+      <span>Спочатку оберіть тему!</span>
+    </a>
+  </p>
+</div>
+<div *ngIf="isPractice || this.dialogData?.practice_id">
+  <mat-toolbar color="primary" *ngIf="dialogData?.teacherLogin">
+    <mat-toolbar-row fxLayout="row">
+      <span class="title-center">Чат зі студентом</span>
+      <span class="spacer"></span>
+      <button class="mat-dialog-close" mat-icon-button mat-dialog-close>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-card *ngIf="!dialogData?.teacherLogin">
+    <b><span>Чат з викладачем</span></b>
+  </mat-card>
+  <hr>
+  <hr>
+  <div class="responsive_table">
+    <div class="chat-container">
+      <div class="messages-container">
+        <div *ngFor="let message of messages" class="message">
+          <strong>{{ message.created_at | date:'dd.MM.yyyy HH:mm' }} - {{ message.email === sender_email ? 'Ви' : 'Співрозмовник'}}:</strong> {{ message.content }}
+        </div>
+      </div>
+
+      <div class="input-container">
+        <input [(ngModel)]="newMessage" placeholder="Type a message..." class="message-input" />
+        <button (click)="sendMessage()" class="send-button">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+

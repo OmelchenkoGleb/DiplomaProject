@@ -59,3 +59,35 @@ table{
 :host ::ng-deep .custom-slide-toggle.mat-slide-toggle.mat-unchecked .mat-slide-toggle-thumb {
   background-color: var(--mat-slide-toggle-unchecked-thumb-color);
 }
+
+
+.no-practice {
+  padding: 20px;
+  background-color: #fbe9e7; /* Легкий красноватый фон */
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid #ffab91; /* Тонкая рамка в тон фона */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Мягкая тень */
+  margin-top: 20px;
+}
+
+.no-practice p {
+  margin: 0;
+}
+
+.no-practice-link {
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: #d84315; /* Оранжево-красный текст для ссылки */
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.no-practice-link:hover {
+  color: #bf360c; /* Более темный цвет при наведении */
+}
+
+.no-practice span {
+  padding: 10px;
+  display: inline-block;
+}
