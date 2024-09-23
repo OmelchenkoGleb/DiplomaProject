@@ -27,4 +27,7 @@
   <button *ngIf="user_type == '1'" mat-menu-item (click)="openChat()">
     <mat-icon>chat</mat-icon> Чат з керівником
   </button>
+  <button *ngIf="user_type == '2'" mat-menu-item (click)="openChatToAdmins()">
+    <mat-icon>chat</mat-icon> Зв'язок з адміністрацією
+  </button>
 </mat-menu>

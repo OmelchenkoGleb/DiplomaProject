@@ -13,6 +13,10 @@ import {StudentViewDiaryComponent} from "./student-view-diary/student-view-diary
 import {TeacherViewPracticeComponent} from "./teacher-view-practice/teacher-view-practice.component";
 import {ChatViewComponent} from "./chat-view/chat-view.component";
 import {StudentViewPracticeComponent} from "./student-view-practice/student-view-practice.component";
+import {
+  StudentViewDirectionofthesisComponent
+} from "./student-view-directionofthesis/student-view-directionofthesis.component";
+import {TeacherViewTopicProposalComponent} from "./teacher-view-topic-proposal/teacher-view-topic-proposal.component";
 
 
 
@@ -111,6 +115,22 @@ export const MaterialRoutes: Routes = [
     canActivate: [RouteGuardService],
     data: {
       expectedRole: ['student']
+    }
+  },
+  {
+    path: 'directionForStudent',
+    component: StudentViewDirectionofthesisComponent,
+    canActivate: [RouteGuardService],
+    data: {
+      expectedRole: ['student']
+    }
+  },
+  {
+    path: 'topicProposole',
+    component: TeacherViewTopicProposalComponent,
+    canActivate: [RouteGuardService],
+    data: {
+      expectedRole: ['teacher']
     }
   }
 ];

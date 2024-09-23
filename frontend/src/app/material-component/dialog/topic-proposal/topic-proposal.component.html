@@ -1,0 +1,25 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row">
+    <span class="title-center">Запропонуйте тему викладачу</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="topicForm">
+    <div fxFlex fxLayout="column">
+      <div fxLayout = "row wrap">
+        <mat-form-field appearance="fill" fxFlex>
+          <mat-label>Ваша тема:</mat-label>
+          <textarea matInput formControlName="description" required rows="1" (input)="autoResize($event)"></textarea>
+          <mat-error *ngIf="topicForm.controls.description.touched && topicForm.controls.description.invalid">
+            <span *ngIf="topicForm.controls.description.errors.required">Це поле э обовёязковим для заповнення.</span>
+            <span *ngIf="topicForm.controls.description.errors.pattern">Ви вели неправильну інформацію.</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button class="my-button" mat-raised-button color="primary" type="submit" (click)="handleSubmit()" [disabled]="!(topicForm.valid && topicForm.dirty)">Надіслати</button>
+  <button mat-raised-button color="primary" mat-dialog-close>Скасувати</button>
+</mat-dialog-actions>

@@ -1,40 +1,49 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {Router} from "@angular/router";
-import {DiplomaPracticeService} from "../../services/diploma-practice.service";
+import {DirectionofthesisService} from "../../services/directionofthesis.service";
 import {ScnackbarService} from "../../services/scnackbar.service";
-import {jwtDecode} from "jwt-decode/build/esm";
 import {MatTableDataSource} from "@angular/material/table";
 import {GlobalConstants} from "../../shared/global-constants";
+import {DirectionofthesisComponent} from "../dialog/directionofthesis/directionofthesis.component";
 import {ConfirmationComponent} from "../dialog/confirmation/confirmation.component";
-
+import {jwtDecode} from "jwt-decode";
+import {TopicProposalComponent} from "../dialog/topic-proposal/topic-proposal.component";
+import {DiplomaPracticeService} from "../../services/diploma-practice.service";
 
 @Component({
-  selector: 'app-student-view-practice',
-  templateUrl: './student-view-practice.component.html',
-  styleUrls: ['./student-view-practice.component.scss']
+  selector: 'app-student-view-directionofthesis',
+  templateUrl: './student-view-directionofthesis.component.html',
+  styleUrls: ['./student-view-directionofthesis.component.scss']
 })
-export class StudentViewPracticeComponent implements OnInit {
+export class StudentViewDirectionofthesisComponent implements OnInit {
 
-  displayedColumns: string[] = ['teacher_name', 'directionofthesis_name', 'description', 'edit'];
-
+  displayedColumns: string[] = ['user_name', 'name', 'edit'];
   dataSource: any;
   responseMesssage: any;
-  studentLogin: any;
+  // tslint:disable-next-line:variable-name
+  student_login: any;
   isPractice = false;
-  dataPracticeStudent: any;
   constructor(private dialog: MatDialog,
               private router: Router,
+              private directionService: DirectionofthesisService,
               private diplomapracticeService: DiplomaPracticeService,
               private scnackbarService: ScnackbarService) { }
 
   ngOnInit(): void {
-    this.tableData();
     this.checkPracticeStudent();
+    this.tableData();
+
   }
+
   checkPracticeStudent(): any {
+    const token: any = localStorage.getItem('token');
+    const tokenPayLoad = jwtDecode(token);
+    // @ts-ignore
+    const email = tokenPayLoad.login;
+    this.student_login = email;
     const data = {
-      login: this.studentLogin
+      login: this.student_login
     };
     // @ts-ignore
     this.diplomapracticeService.checkPracticeForStudent(data).subscribe(
@@ -42,7 +51,7 @@ export class StudentViewPracticeComponent implements OnInit {
         console.log(response[0]?.ID);
         if (response[0]?.ID) {
           this.isPractice = true;
-          this.dataPracticeStudent = response[0];
+          console.log(this.isPractice);
         }
       },
       // tslint:disable-next-line:no-shadowed-variable
@@ -56,17 +65,18 @@ export class StudentViewPracticeComponent implements OnInit {
       }
     );
   }
+
   tableData(): any {
     const token: any = localStorage.getItem('token');
     const tokenPayLoad = jwtDecode(token);
     // @ts-ignore
     const email = tokenPayLoad.login;
-    this.studentLogin = email;
+    this.student_login = email;
     const data = {
       login: email
     };
     // @ts-ignore
-    this.diplomapracticeService.getForStudent(data).subscribe(
+    this.directionService.getForStudent(data).subscribe(
       (response: any): any => {
         console.log(response);
         this.dataSource = new MatTableDataSource(response);
@@ -87,38 +97,18 @@ export class StudentViewPracticeComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-
-  handleChoose(element: any): any{
-    console.log(element);
+  handleEditAction(value: any): any{
+    console.log(value);
     const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '550px';
     dialogConfig.data = {
-      message: 'Прив\'язати студента'
+      direction_id: value.id,
+      student_login: this.student_login
     };
-    const dialogrefopen = this.dialog.open(ConfirmationComponent, dialogConfig);
-    const sub = dialogrefopen.componentInstance.onEmitStatusChange.subscribe((user) => {
-      dialogrefopen.close();
-      const data = {
-        id: element.ID,
-        student_email: this.studentLogin,
-        teacher_login: element.teacher_login,
-        theme: element.description
-      };
-      this.diplomapracticeService.setStudent(data).subscribe(
-        (response: any): any => {
-          this.responseMesssage = response?.message;
-          this.scnackbarService.openSnackBar(this.responseMesssage, '');
-          this.checkPracticeStudent();
-        },
-        // tslint:disable-next-line:no-shadowed-variable
-        (error: { error: { message: any; }; }) => {
-          if (error.error?.message) {
-            this.responseMesssage = error.error?.message;
-          } else {
-            this.responseMesssage = GlobalConstants.genericError;
-          }
-          this.scnackbarService.openSnackBar(this.responseMesssage, GlobalConstants.error);
-        }
-      );
+    const dialogRef = this.dialog.open(TopicProposalComponent, dialogConfig);
+    this.router.events.subscribe((): any => {
+      dialogRef.close();
     });
   }
+
 }

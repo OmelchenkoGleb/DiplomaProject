@@ -1,11 +1,20 @@
 const express = require('express');
 const connection = require('../connection');
 const router = express.Router();
+const nodemailer = require('nodemailer')
 require('dotenv').config();
 
 // Authentification middleware
 var auth = require('../services/authentification');
 var checkRole = require('../services/checkRole');
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_LOGIN,
+        pass: process.env.EMAIL_PASSWORD
+    }
+});
 
 // Получение всех сообщений по chat_id
 router.post('/messagesFromChat', auth.authenticateToken, (req, res) => {
@@ -35,9 +44,58 @@ router.post('/sendmessage', auth.authenticateToken, (req, res) => {
                 console.error('Error sending message:', err);
                 return res.status(500).json({ error: 'Failed to send message' });
             }
-            res.json({ message: 'Message sent successfully' });
+            else {
+                var query = "SELECT uss.`login` as teacher_login, us.`login` as student_login FROM `diploma practice` dp INNER JOIN `user` us ON (us.`ID` = dp.`student_id`) INNER JOIN `directionofthesis` dr ON (dr.`ID` = dp.`directionofthesis_id`) INNER JOIN `specialty` sp ON (sp.`ID` = dr.`group_id`) INNER JOIN `user` uss ON (uss.`ID` = dr.`teacher_id`)";
+                connection.query(query, (err, result)=> {
+                    if(!err){
+                        var from;
+                        var to;
+                        if (result[0].teacher_login == senderLogin) {
+                            from = result[0].teacher_login;
+                            to = result[0].student_login;
+                        } else {
+                            from = result[0].student_login;
+                            to = result[0].teacher_login;
+                        }
+                        var mailOptions = {
+                            from: process.env.EMAIL_LOGIN,
+                            to: to,
+                            subject: 'Вам надіслали повідомленя з "Система Керування Дипломною Практикою"',
+                            html: '<p><b>'+ from + ': ' +content+'</b></p>'
+                        }
+                        transporter.sendMail(mailOptions, function (error, info) {
+                            if(error) {
+                                console.log(error)
+                            } else {
+                                console.log('Email sent: ' + info.response);
+                            }
+                        })
+                        res.json({ message: 'Message sent successfully' });
+                    } else {
+                        return res.status(500).json(err);
+                    }
+                })
+            }
         }
     );
+});
+
+router.post('/sendMessageToAdmins', auth.authenticateToken, (req, res) => {
+    const { content, teacherLogin} = req.body;
+    var mailOptions = {
+        from: teacherLogin,
+        to: process.env.EMAIL_LOGIN,
+        subject: 'Питання від викладача!',
+        html: '<p><b>'+content+'</b></p>'
+    }
+    transporter.sendMail(mailOptions, function (error, info) {
+        if(error) {
+            console.log(error)
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    })
+    return res.json({ message: 'Message sent successfully' });
 });
 
 

@@ -3,8 +3,8 @@ import {ChatService} from '../../services/chat.service';
 import {jwtDecode} from 'jwt-decode/build/esm';
 import {GlobalConstants} from "../../shared/global-constants";
 import {ScnackbarService} from "../../services/scnackbar.service";
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {DiplomaPracticeService} from "../../services/diploma-practice.service";
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {DiplomaPracticeService} from '../../services/diploma-practice.service';
 
 @Component({
   selector: 'app-chat-view',

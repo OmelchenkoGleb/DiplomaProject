@@ -23,6 +23,18 @@ router.get('/get', auth.authenticateToken, checkRole.checkRoleAdmin, (req, res)=
     }
   })
 })
+router.post('/getForStudent', auth.authenticateToken, checkRole.checkRoleStudent, (req,res) => {
+  let directionofthesis = req.body;
+  console.log(directionofthesis);
+  query = "select dr.ID as id, us.`ID` as user_id, sp.`ID` as group_id, us.`Name` as user_name, sp.`Name` as group_name, dr.`name` as name from directionofthesis dr INNER JOIN `user` us ON(dr.`teacher_id` = us.`ID`) INNER JOIN `specialty` sp ON(dr.group_id = sp.`ID`) WHERE dr.`group_id` = (SELECT gm.`specialty_id` from `group_member` gm INNER JOIN `user` us ON (us.`ID` = gm.`student_id`) WHERE us.`login` = ?)"
+  connection.query(query, [directionofthesis.login], (err, results) => {
+    if(!err) {
+      return res.status(200).json(results);
+    } else {
+      return res.status(500).json(err);
+    }
+  })
+})
 
 router.post('/getDirectionForTeacher', auth.authenticateToken, checkRole.checkRoleTeacher, (req,res) => {
   let directionofthesis = req.body;

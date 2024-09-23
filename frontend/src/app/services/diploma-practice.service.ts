@@ -15,7 +15,6 @@ export class DiplomaPracticeService {
       {headers: new HttpHeaders().set('Content-Type', 'application/json')
       });
   }
-
   checkPracticeForStudent(data: any): any{
     return this.httpClient.post(this.url + '/diploma_practice/checkPracticeForStudent', data,
       {headers: new HttpHeaders().set('Content-Type', 'application/json')
@@ -64,4 +63,32 @@ export class DiplomaPracticeService {
       {headers: new HttpHeaders().set('Content-Type', 'application/json')
       });
   }
+
+  getTopicProposal(data: any): any{
+    console.log(data);
+    return this.httpClient.post(this.url + '/diploma_practice/getTopicProposal', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
+  topicProposal(data: any): any{
+    return this.httpClient.post(this.url + '/diploma_practice/setTopicProposal', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
+  deleteTopicProposole(data: any): any{
+    console.log(data);
+    return this.httpClient.post(this.url + '/diploma_practice/deleteTopicProposole', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
+  approveTopicProposole(data: any): any{
+    console.log(data);
+    return this.httpClient.post(this.url + '/diploma_practice/approveTopicProposole', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
 }

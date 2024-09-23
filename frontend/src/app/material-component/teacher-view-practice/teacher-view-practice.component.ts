@@ -144,7 +144,8 @@ export class TeacherViewPracticeComponent implements OnInit {
     const sub = dialogrefopen.componentInstance.onEmitStatusChange.subscribe((user) => {
       dialogrefopen.close();
       const data = {
-        id: element.practice_id
+        id: element.practice_id,
+        student_email: element.student_email
       };
       this.diplomapracticeService.setNullForTeacher(data).subscribe(
         (response: any): any => {

@@ -14,12 +14,14 @@ const MENUITEMS = [
   {state: 'teachers', name: 'Викладачі', icon: 'group_icon', role: '3'},
   {state: 'speciality', name: 'Групи', icon: 'layers_icon', role: '3'},
   {state: 'directionofthesis', name: 'Напрямки', icon: ' dvr_icon', role: '3'},
-  {state: 'studentChoosePractice', name: 'Обрати Тему', icon: ' insert_drive_file_icon', role: '1'},
+  {state: 'studentChoosePractice', name: 'Обрати Тему', icon: ' assignment_icon', role: '1'},
+  {state: 'directionForStudent', name: 'Запропонувати Тему', icon: ' layers_icon', role: '1'},
   {state: 'studenttasks', name: 'Календарний План', icon: ' developer_board_icon', role: '1'},
   {state: 'studentResultFileReport', name: 'Звіт', icon: ' file_copy_icon', role: '1'},
   {state: 'studentResultFileDiary', name: 'Щоденник', icon: ' insert_drive_file_icon', role: '1'},
-  {state: 'diplomapractice', name: 'Нові теми', icon: ' developer_board_icon', role: '2'},
-  {state: 'teacherPractice', name: 'Обрані Теми', icon: ' developer_board_icon', role: '2'}
+  {state: 'topicProposole', name: 'Запропоновані Теми', icon: ' layers_icon', role: '2'},
+  {state: 'diplomapractice', name: 'Ваші Теми', icon: ' developer_board_icon', role: '2'},
+  {state: 'teacherPractice', name: 'Обрані Теми', icon: ' assignment_icon', role: '2'}
 ];
 
 @Injectable()

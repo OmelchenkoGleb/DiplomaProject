@@ -32,6 +32,10 @@ import { ChatViewComponent } from './chat-view/chat-view.component';
 import { AddStudentComponent } from './dialog/add-student/add-student.component';
 import { StudentViewPracticeComponent } from './student-view-practice/student-view-practice.component';
 import {SharedModule} from "../shared/shared.module";
+import { ChatToAdminsComponent } from './dialog/chat-to-admins/chat-to-admins.component';
+import { StudentViewDirectionofthesisComponent } from './student-view-directionofthesis/student-view-directionofthesis.component';
+import { TopicProposalComponent } from './dialog/topic-proposal/topic-proposal.component';
+import { TeacherViewTopicProposalComponent } from './teacher-view-topic-proposal/teacher-view-topic-proposal.component';
 
 @NgModule({
     imports: [
@@ -68,7 +72,11 @@ import {SharedModule} from "../shared/shared.module";
     ManageTasksComponent,
     ChatViewComponent,
     AddStudentComponent,
-    StudentViewPracticeComponent
+    StudentViewPracticeComponent,
+    ChatToAdminsComponent,
+    StudentViewDirectionofthesisComponent,
+    TopicProposalComponent,
+    TeacherViewTopicProposalComponent
   ]
 })
 export class MaterialComponentsModule {}
