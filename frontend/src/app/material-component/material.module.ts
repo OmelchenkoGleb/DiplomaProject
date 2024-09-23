@@ -36,6 +36,7 @@ import { ChatToAdminsComponent } from './dialog/chat-to-admins/chat-to-admins.co
 import { StudentViewDirectionofthesisComponent } from './student-view-directionofthesis/student-view-directionofthesis.component';
 import { TopicProposalComponent } from './dialog/topic-proposal/topic-proposal.component';
 import { TeacherViewTopicProposalComponent } from './teacher-view-topic-proposal/teacher-view-topic-proposal.component';
+import { CreateReportComponent } from './dialog/create-report/create-report.component';
 
 @NgModule({
     imports: [
@@ -76,7 +77,8 @@ import { TeacherViewTopicProposalComponent } from './teacher-view-topic-proposal
     ChatToAdminsComponent,
     StudentViewDirectionofthesisComponent,
     TopicProposalComponent,
-    TeacherViewTopicProposalComponent
+    TeacherViewTopicProposalComponent,
+    CreateReportComponent
   ]
 })
 export class MaterialComponentsModule {}

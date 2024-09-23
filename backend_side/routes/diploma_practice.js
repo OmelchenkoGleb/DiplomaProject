@@ -7,6 +7,11 @@ const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+const bodyParser = require('body-parser');
+const XLSX = require('xlsx');
+const fs = require('fs');
+const path = require('path');
+
 //authentification
 var auth = require('../services/authentification')
 //checkRoles
@@ -293,5 +298,37 @@ router.post('/approveTopicProposole', auth.authenticateToken, checkRole.checkRol
         }
     })
 })
+
+// Эндпоинт для формирования XLSX файла
+router.post('/generateReport', (req, res) => {
+    var data = req.body; // Получаем данные из запроса
+    console.log(data);
+    var query = "";
+    if (data.typeReport == 'allPractice') query = 'SELECT sp.`Name` as `Група`, us.`Name` as `Студент`, uss.`Name` as `Викладач`, dr.`name` as `Напрямок`, dp.`description` as `Тема` FROM `diploma practice` dp INNER JOIN `user` us ON (us.`ID` = dp.`student_id`) INNER JOIN `directionofthesis` dr ON (dr.`ID` = dp.`directionofthesis_id`) INNER JOIN `specialty` sp ON (sp.`ID` = dr.`group_id`) INNER JOIN `user` uss ON (uss.`ID` = dr.`teacher_id`) WHERE sp.`ID` = ?';
+    if (data.typeReport == 'nullStudent')  query = 'SELECT sp.`name` as `Група`, us.`name` as \'ФІО\', us.`contact_number` as `Контактний номер`, us.`login` as `Електрона Адреса` FROM `user` us INNER JOIN `group_member` gm ON (us.`ID` = gm.`student_id`) INNER JOIN `specialty` sp ON (sp.`ID` = gm.`specialty_id`) LEFT JOIN `diploma practice` dp ON (us.`ID` = dp.`student_id`) WHERE dp.`student_id` IS NULL AND us.`user_type` = \'1\' AND sp.`ID` = ?';
+
+    connection.query(query, [data.group_id], (err, results) => {
+        if (err) {
+            return res.status(500).send('Error fetching data');
+        }
+        // Преобразование данных в формат для XLSX
+        const ws = XLSX.utils.json_to_sheet(results);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Data');
+
+        // Сохранение файла на сервере
+        const filePath = path.join(__dirname, 'data.xlsx');
+        XLSX.writeFile(wb, filePath);
+
+        // Отправка файла пользователю
+        res.download(filePath, 'data.xlsx', (err) => {
+            if (err) {
+                console.log('Error in file download:', err);
+            }
+            // Удаление файла после отправки
+            fs.unlinkSync(filePath);
+        });
+    });
+});
 
 module.exports = router

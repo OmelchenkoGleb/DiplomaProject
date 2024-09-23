@@ -21,13 +21,16 @@
   <button mat-menu-item (click)="changePassword()">
     <mat-icon>password</mat-icon> Змінити пароль
   </button>
-  <button mat-menu-item (click)="logout()">
-    <mat-icon>exit_to_app</mat-icon> Вийти
-  </button>
   <button *ngIf="user_type == '1'" mat-menu-item (click)="openChat()">
     <mat-icon>chat</mat-icon> Чат з керівником
   </button>
   <button *ngIf="user_type == '2'" mat-menu-item (click)="openChatToAdmins()">
     <mat-icon>chat</mat-icon> Зв'язок з адміністрацією
+  </button>
+  <button *ngIf="user_type == '3'" mat-menu-item (click)="openGetReport()">
+    <mat-icon>archive_icon</mat-icon> Сформувати звіт
+  </button>
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>exit_to_app</mat-icon> Вийти
   </button>
 </mat-menu>

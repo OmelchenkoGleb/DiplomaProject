@@ -1,0 +1,30 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row">
+    <span class="title-center">Сформувати Звіт</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="createReportForm">
+    <div fxFlex fxLayout="column">
+      <div fxLayout = "row wrap">
+        <mat-form-field appearance="fill" fxFlex>
+          <mat-label>Група</mat-label>
+          <mat-select formControlName="groupID">
+            <mat-option *ngFor="let group of groups" [value]="group.ID">{{group.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" fxFlex>
+          <mat-label>Тип звіту</mat-label>
+          <mat-select formControlName="typeReport">
+            <mat-option value = "allPractice">Обрані теми</mat-option>
+            <mat-option value = "nullStudent">Студенти які не обрали тему</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button class="my-button" mat-raised-button color="primary" type="submit" (click)="handleSubmit()" [disabled]="!(createReportForm.valid && createReportForm.dirty)">Сформувати</button>
+  <button mat-raised-button color="primary" mat-dialog-close>Скасувати</button>
+</mat-dialog-actions>

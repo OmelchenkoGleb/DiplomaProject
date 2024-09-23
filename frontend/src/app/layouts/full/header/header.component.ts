@@ -6,6 +6,7 @@ import {ChangePasswordComponent} from "../../../material-component/dialog/change
 import {jwtDecode} from "jwt-decode";
 import {ChatViewComponent} from "../../../material-component/chat-view/chat-view.component";
 import {ChatToAdminsComponent} from "../../../material-component/dialog/chat-to-admins/chat-to-admins.component";
+import {CreateReportComponent} from "../../../material-component/dialog/create-report/create-report.component";
 
 @Component({
   selector: 'app-header',
@@ -61,6 +62,15 @@ export class AppHeaderComponent {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '50%';
     const dialogRef = this.dialog.open(ChatToAdminsComponent, dialogConfig);
+    this.router.events.subscribe((): any => {
+      dialogRef.close();
+    });
+  }
+
+  openGetReport(): any{
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '50%';
+    const dialogRef = this.dialog.open(CreateReportComponent, dialogConfig);
     this.router.events.subscribe((): any => {
       dialogRef.close();
     });

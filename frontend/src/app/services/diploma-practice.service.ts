@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
+// @ts-ignore
+import { saveAs } from 'file-saver';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -89,6 +92,13 @@ export class DiplomaPracticeService {
     return this.httpClient.post(this.url + '/diploma_practice/approveTopicProposole', data,
       {headers: new HttpHeaders().set('Content-Type', 'application/json')
       });
+  }
+
+  getReport(data: any): any{
+    console.log(data)
+    this.httpClient.post(this.url + '/diploma_practice/generateReport', data, { responseType: 'blob' }).subscribe((blob) => {
+      saveAs(blob, 'звіт.xlsx');
+    });
   }
 
 }
