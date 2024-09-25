@@ -1,41 +1,50 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {Component, Inject, OnInit, Optional} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {Router} from "@angular/router";
-import {UserService} from "../../services/user.service";
+import {ResultfileService} from "../../services/resultfile.service";
 import {ScnackbarService} from "../../services/scnackbar.service";
-import {MatTableDataSource} from "@angular/material/table";
+import {DiplomaPracticeService} from "../../services/diploma-practice.service";
+import {jwtDecode} from "jwt-decode/build/esm";
 import {GlobalConstants} from "../../shared/global-constants";
-import {AddUserComponent} from "../../add-user/add-user.component";
+import {MatTableDataSource} from "@angular/material/table";
+import {UploadFileDocxComponent} from "../dialog/upload-file-docx/upload-file-docx.component";
 import {ConfirmationComponent} from "../dialog/confirmation/confirmation.component";
-import {AddStudentComponent} from "../dialog/add-student/add-student.component";
-import {ChatToAdminsComponent} from "../dialog/chat-to-admins/chat-to-admins.component";
-import {AdminsSendMailComponent} from "../dialog/admins-send-mail/admins-send-mail.component";
 
 @Component({
-  selector: 'app-manage-student',
-  templateUrl: './manage-student.component.html',
-  styleUrls: ['./manage-student.component.scss']
+  selector: 'app-manage-admins-file',
+  templateUrl: './manage-admins-file.component.html',
+  styleUrls: ['./manage-admins-file.component.scss']
 })
-export class ManageStudentComponent implements OnInit {
+export class ManageAdminsFileComponent implements OnInit {
 
-  displayedColumns: string[] = ['group', 'name', 'contactNumber', 'email', 'password', 'edit'];
+  displayedColumns: string[] = ['file', 'edit'];
 
   dataSource: any;
   responseMesssage: any;
+  email: any;
+  // tslint:disable-next-line:variable-name
+  user_type: any;
+  studentLogin: any;
+  isPractice = false;
   constructor(private dialog: MatDialog,
               private router: Router,
-              private userService: UserService,
-              private scnackbarService: ScnackbarService) { }
+              private resultfile: ResultfileService,
+              private scnackbarService: ScnackbarService,
+              private diplomapracticeService: DiplomaPracticeService) { }
 
   ngOnInit(): void {
+    const token: any = localStorage.getItem('token');
+    const tokenPayLoad: any = jwtDecode(token);
+    // @ts-ignore
+    this.user_type = tokenPayLoad.user_type;
+    this.email = tokenPayLoad.login;
     this.tableData();
   }
-
   tableData(): any {
-
     // @ts-ignore
-    this.userService.getStudent().subscribe(
+    this.resultfile.getAdminsFile().subscribe(
       (response: any): any => {
+        console.log(response);
         this.dataSource = new MatTableDataSource(response);
       },
       // tslint:disable-next-line:no-shadowed-variable
@@ -59,41 +68,20 @@ export class ManageStudentComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '550px';
     dialogConfig.data = {
-      action: 'Add',
-      label_name: 'Додати Студента',
-      user_type: '1'
+      file_type: '3',
+      label_name: 'Додати новий матеріл',
+      login: this.email
     };
-    const dialogRef = this.dialog.open(AddStudentComponent, dialogConfig);
+    const dialogRef = this.dialog.open(UploadFileDocxComponent, dialogConfig);
     this.router.events.subscribe((): any => {
       dialogRef.close();
     });
-    const sub = dialogRef.componentInstance.onAddUser.subscribe(
+    const sub = dialogRef.componentInstance.onAddFile.subscribe(
       (response): any => {
         this.tableData();
       }
     );
   }
-
-  handleEditAction(value: any): any{
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = '550px';
-    dialogConfig.data = {
-      action: 'Edit',
-      label_name: 'Редагувати дані про Студента',
-      user_type: '1',
-      data: value
-    };
-    const dialogRef = this.dialog.open(AddStudentComponent, dialogConfig);
-    this.router.events.subscribe((): any => {
-      dialogRef.close();
-    });
-    const sub = dialogRef.componentInstance.onEditUser.subscribe(
-      (response): any => {
-        this.tableData();
-      }
-    );
-  }
-
   handleDeleteAction(element: any): any{
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
@@ -102,11 +90,10 @@ export class ManageStudentComponent implements OnInit {
     const dialogrefopen = this.dialog.open(ConfirmationComponent, dialogConfig);
     const sub = dialogrefopen.componentInstance.onEmitStatusChange.subscribe((user) => {
       dialogrefopen.close();
-      console.log(element.id);
       const data = {
-        id: element.id
+        id: element.ID
       };
-      this.userService.delete(data).subscribe(
+      this.resultfile.delete(data).subscribe(
         (response: any): any => {
           this.responseMesssage = response?.message;
           this.scnackbarService.openSnackBar(this.responseMesssage, '');
@@ -125,16 +112,16 @@ export class ManageStudentComponent implements OnInit {
     });
   }
 
-  handleViewChat(element: any): any {
+  download(element: any): any{
     console.log(element);
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = '50%';
-    dialogConfig.data = {
-      mail: element.email
-    };
-    const dialogRef = this.dialog.open(AdminsSendMailComponent, dialogConfig);
-    this.router.events.subscribe((): any => {
-      dialogRef.close();
+    this.resultfile.getFile(element.ID).subscribe((blob: any): any => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = element.filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     });
   }
 

@@ -37,6 +37,10 @@ import { StudentViewDirectionofthesisComponent } from './student-view-directiono
 import { TopicProposalComponent } from './dialog/topic-proposal/topic-proposal.component';
 import { TeacherViewTopicProposalComponent } from './teacher-view-topic-proposal/teacher-view-topic-proposal.component';
 import { CreateReportComponent } from './dialog/create-report/create-report.component';
+import { AdminsSendMailComponent } from './dialog/admins-send-mail/admins-send-mail.component';
+import { ManageAdminsTasksComponent } from './manage-admins-tasks/manage-admins-tasks.component';
+import { AdminsTasksComponent } from './dialog/admins-tasks/admins-tasks.component';
+import { ManageAdminsFileComponent } from './manage-admins-file/manage-admins-file.component';
 
 @NgModule({
     imports: [
@@ -78,7 +82,11 @@ import { CreateReportComponent } from './dialog/create-report/create-report.comp
     StudentViewDirectionofthesisComponent,
     TopicProposalComponent,
     TeacherViewTopicProposalComponent,
-    CreateReportComponent
+    CreateReportComponent,
+    AdminsSendMailComponent,
+    ManageAdminsTasksComponent,
+    AdminsTasksComponent,
+    ManageAdminsFileComponent
   ]
 })
 export class MaterialComponentsModule {}

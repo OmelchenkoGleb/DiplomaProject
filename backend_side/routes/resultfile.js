@@ -26,13 +26,26 @@ router.post('/getReport', auth.authenticateToken, (req, res)=> {
     })
 })
 
+
+router.post('/getAdminsFile', auth.authenticateToken, (req, res)=> {
+    let resultfile = req.body;
+    let query = "SELECT * FROM `resultfile` WHERE `filetype_id` = 3"
+    connection.query(query,[resultfile.login], (err, result)=> {
+        if(!err){
+            return res.status(200).json(result);
+        } else {
+            return res.status(500).json(err);
+        }
+    })
+})
+
 // delete
 router.post('/delete', auth.authenticateToken, (req, res)=> {
     let speciality = req.body;
     let query = "delete from `resultfile` where `resultfile`.`ID` = ?";
     connection.query(query, [speciality.id], (err, result) => {
         if(!err) {
-            return res.status(200).json({message : "File Deleted Successfully"})
+            return res.status(200).json({message : "Успішно!"})
         } else {
             return res.status(500).json(err);
         }
@@ -58,7 +71,7 @@ router.get('/getFile/:id', auth.authenticateToken, (req, res)=> {
     connection.query(query, [fileId], (err, result) => {
         if (err) {
             console.error('Error executing query:', err);
-            res.status(500).send('Error retrieving the file');
+            res.status(500).send('Помилка');
         } else {
             if (result.length > 0) {
                 const file = result[0];
@@ -68,7 +81,7 @@ router.get('/getFile/:id', auth.authenticateToken, (req, res)=> {
                 res.setHeader('Content-Type', 'application/octet-stream');
                 res.send(file.file); // Відправляємо BLOB дані
             } else {
-                res.status(404).send('File not found');
+                res.status(404).send('Не знайдено файлу');
             }
         }
     });
@@ -87,7 +100,7 @@ const upload = multer({
         if (allowedTypes.includes(file.mimetype)) {
             cb(null, true);
         } else {
-            cb(new Error('Invalid file type. Only .doc and .docx are allowed.'));
+            cb(new Error('Не правильний тип файлу - лише ворд!'));
         }
     }
 });
@@ -95,7 +108,7 @@ const upload = multer({
 // Ендпоінт для завантаження файлу
 router.post('/uploadDoc', upload.single('file'), (req, res) => {
     if (!req.file) {
-        return res.status(400).send('No file uploaded.');
+        return res.status(400).send('Не завантажено файл.');
     }
     const login = req.body.login;
     const filetype = req.body.filetype;
@@ -107,7 +120,7 @@ router.post('/uploadDoc', upload.single('file'), (req, res) => {
         if (err) {
             return res.status(500).json(err);
         } else {
-            return res.status(200).json({message: "File upload successfully."});
+            return res.status(200).json({message: "Успішно!."});
         }
     });
 });

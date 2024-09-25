@@ -34,13 +34,13 @@ router.post('/add', auth.authenticateToken, checkRole.checkRoleAdmin, (req,res) 
         query = "INSERT INTO `specialty` (`name`) VALUES (?);"
         connection.query(query, [speciality.name], (err, results) => {
           if(!err) {
-            return res.status(200).json({message: "Successfully Added New Speciality"});
+            return res.status(200).json({message: "Успішно!"});
           } else {
             return res.status(500).json(err);
           }
         })
       } else {
-        return res.status(400).json({message: "Speciality Already Exist"});
+        return res.status(400).json({message: "Вже існує!"});
       }
     } else {
       return res.status(500).json(err);
@@ -58,16 +58,16 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRoleAdmin, (req, 
         connection.query(query,[speciality.name, speciality.id], (err, result)=> {
           if(!err){
             if (result.afffectedRows == 0) {
-              return res.status(404).json({message : "Speciality ID does not found"});
+              return res.status(404).json({message : "Не знайдено такої групи"});
             } else {
-              return res.status(200).json({message : "Speciality Updated Successfully"});
+              return res.status(200).json({message : "Успішно!"});
             }
           } else {
             return res.status(500).json(err);
           }
         })
       } else {
-        return res.status(400).json({message: "Speciality Already Exist"});
+        return res.status(400).json({message: "Вже є"});
       }
     } else {
       return res.status(500).json(err);
@@ -80,7 +80,7 @@ router.post('/delete', auth.authenticateToken, checkRole.checkRoleAdmin, (req, r
   let query = "delete from `specialty` where `specialty`.`ID` = ?";
   connection.query(query, [speciality.id], (err, result) => {
     if(!err) {
-      return res.status(200).json({message : "Speciality Deleted Successfully"})
+      return res.status(200).json({message : "Успішно!"})
     } else {
       return res.status(500).json(err);
     }

@@ -26,7 +26,7 @@ router.post('/messagesFromChat', auth.authenticateToken, (req, res) => {
         (err, results) => {
             if (err) {
                 console.error('Error fetching messages:', err);
-                return res.status(500).json({ error: 'Failed to fetch messages' });
+                return res.status(500).json({ error: 'Помилка отримання повідомлень' });
             }
             res.json(results);
         }
@@ -42,7 +42,7 @@ router.post('/sendmessage', auth.authenticateToken, (req, res) => {
         (err, result) => {
             if (err) {
                 console.error('Error sending message:', err);
-                return res.status(500).json({ error: 'Failed to send message' });
+                return res.status(500).json({ error: 'Помилка під час відправки повідомлення' });
             }
             else {
                 var query = "SELECT uss.`login` as teacher_login, us.`login` as student_login FROM `diploma practice` dp INNER JOIN `user` us ON (us.`ID` = dp.`student_id`) INNER JOIN `directionofthesis` dr ON (dr.`ID` = dp.`directionofthesis_id`) INNER JOIN `specialty` sp ON (sp.`ID` = dr.`group_id`) INNER JOIN `user` uss ON (uss.`ID` = dr.`teacher_id`)";
@@ -70,7 +70,7 @@ router.post('/sendmessage', auth.authenticateToken, (req, res) => {
                                 console.log('Email sent: ' + info.response);
                             }
                         })
-                        res.json({ message: 'Message sent successfully' });
+                        res.json({ message: 'Повідомлення надіслано успішно!' });
                     } else {
                         return res.status(500).json(err);
                     }
@@ -95,7 +95,25 @@ router.post('/sendMessageToAdmins', auth.authenticateToken, (req, res) => {
             console.log('Email sent: ' + info.response);
         }
     })
-    return res.json({ message: 'Message sent successfully' });
+    return res.json({ message: 'Повідомлення надіслано успішно!' });
+});
+
+router.post('/sendMessageFromAdmins', auth.authenticateToken, (req, res) => {
+    const { content, email} = req.body;
+    var mailOptions = {
+        from: process.env.EMAIL_LOGIN,
+        to: email,
+        subject: 'Вам надіслано повідомлення від "Система Управління Дипломною Практикою"!',
+        html: '<p><b>'+content+'</b></p>'
+    }
+    transporter.sendMail(mailOptions, function (error, info) {
+        if(error) {
+            console.log(error)
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    })
+    return res.json({ message: 'Повідомлення надіслано успішно!' });
 });
 
 

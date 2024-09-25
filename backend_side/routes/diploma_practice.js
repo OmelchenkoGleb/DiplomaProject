@@ -100,7 +100,7 @@ router.post('/setNullForTeacher', auth.authenticateToken, checkRole.checkRoleTea
                                     console.log('Email sent: ' + info.response);
                                 }
                             })
-                            return res.status(200).json({message: "Successfully Remove Student"});
+                            return res.status(200).json({message: "Успішно!"});
                         } else {
                             return res.status(500).json(err);
                         }
@@ -140,7 +140,7 @@ router.post('/setStudent', auth.authenticateToken, checkRole.checkRoleStudent, (
                     query = "DELETE from `topic_proposal` WHERE `student_id` = (SELECT `ID` FROM `user` WHERE `login` = ?)";
                     connection.query(query, [diplomapractice.student_email], (err, results) => {
                         if(!err) {
-                            return res.status(200).json({message: "Successfully Added New Practice"});
+                            return res.status(200).json({message: "Успішно!"});
                         } else {
                             return res.status(500).json(err);
                         }
@@ -163,7 +163,7 @@ router.post('/add', auth.authenticateToken, checkRole.checkRoleTeacher, (req,res
     query = "INSERT INTO `diploma practice` (`ID`, `directionofthesis_id`, `description`) VALUES (NULL, ?, ?);"
     connection.query(query, [diplomapractice.directionofthesis_id, diplomapractice.description], (err, results) => {
         if(!err) {
-            return res.status(200).json({message: "Successfully Added New Practice"});
+            return res.status(200).json({message: "Успішно!"});
         } else {
             return res.status(500).json(err);
         }
@@ -177,9 +177,9 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRoleTeacher, (req
     connection.query(query,[diplomapractice.directionofthesis_id, diplomapractice.description, diplomapractice.id], (err, result)=> {
         if(!err){
             if (result.afffectedRows == 0) {
-                return res.status(404).json({message : "Practice ID does not found"});
+                return res.status(404).json({message : "Не знайдено такої практики"});
             } else {
-                return res.status(200).json({message : "Practice Updated Successfully"});
+                return res.status(200).json({message : "Успішно!"});
             }
         } else {
             return res.status(500).json(err);
@@ -192,7 +192,7 @@ router.post('/delete', auth.authenticateToken, checkRole.checkRoleTeacher, (req,
     let query = "delete from `diploma practice` where `diploma practice`.`ID` = ?";
     connection.query(query, [speciality.id], (err, result) => {
         if(!err) {
-            return res.status(200).json({message : "Deleted Successfully"})
+            return res.status(200).json({message : "Успішно!"})
         } else {
             return res.status(500).json(err);
         }
@@ -224,7 +224,7 @@ router.post('/setTopicProposal', auth.authenticateToken, checkRole.checkRoleStud
     query = "INSERT INTO `topic_proposal` (`ID`, `directionofthesis_id`, `description`, `student_id`) VALUES (NULL, ?, ?, (SELECT `ID` from `user` where `login` = ?));"
     connection.query(query, [diplomapractice.direction_id, diplomapractice.description, diplomapractice.student_login], (err, results) => {
         if(!err) {
-            return res.status(200).json({message: "Successfully Added New Practice"});
+            return res.status(200).json({message: "Успішно!"});
         } else {
             return res.status(500).json(err);
         }
@@ -250,7 +250,7 @@ router.post('/deleteTopicProposole', auth.authenticateToken, checkRole.checkRole
                     console.log('Email sent: ' + info.response);
                 }
             })
-            return res.status(200).json({message: "Successfully Added New Practice"});
+            return res.status(200).json({message: "Успішно!"});
         } else {
             console.log(err)
             return res.status(500).json(err);
@@ -284,7 +284,7 @@ router.post('/approveTopicProposole', auth.authenticateToken, checkRole.checkRol
                     query = "DELETE from `topic_proposal` WHERE `student_id` = (SELECT `ID` FROM `user` WHERE `login` = ?)";
                     connection.query(query, [diplomapractice.student_email], (err, results) => {
                         if(!err) {
-                            return res.status(200).json({message: "Successfully Added New Practice"});
+                            return res.status(200).json({message: "Успішно!"});
                         } else {
                             return res.status(500).json(err);
                         }
@@ -309,7 +309,7 @@ router.post('/generateReport', (req, res) => {
 
     connection.query(query, [data.group_id], (err, results) => {
         if (err) {
-            return res.status(500).send('Error fetching data');
+            return res.status(500).send('Помилка');
         }
         // Преобразование данных в формат для XLSX
         const ws = XLSX.utils.json_to_sheet(results);

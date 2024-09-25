@@ -101,7 +101,7 @@ export class ChatViewComponent implements OnInit {
         (response: any): any => {
           if (this.tokenPayLoad.user_type == 1 && this.isPractice) this.loadMessages(this.idPracticeStudent);
           else this.loadMessages(this.dialogData.practice_id);
-          this.scnackbarService.openSnackBar('Reload Chat', '');
+          this.scnackbarService.openSnackBar('Успішно!', '');
           this.newMessage = '';
         },
         // tslint:disable-next-line:no-shadowed-variable

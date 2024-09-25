@@ -7,6 +7,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {GlobalConstants} from '../../shared/global-constants';
 import {AddUserComponent} from '../../add-user/add-user.component';
 import {ConfirmationComponent} from "../dialog/confirmation/confirmation.component";
+import {AdminsSendMailComponent} from "../dialog/admins-send-mail/admins-send-mail.component";
 
 @Component({
   selector: 'app-manage-teacher',
@@ -121,4 +122,16 @@ export class ManageTeacherComponent implements OnInit {
     });
   }
 
+  handleViewChat(element: any): any {
+    console.log(element);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '50%';
+    dialogConfig.data = {
+      mail: element.email
+    };
+    const dialogRef = this.dialog.open(AdminsSendMailComponent, dialogConfig);
+    this.router.events.subscribe((): any => {
+      dialogRef.close();
+    });
+  }
 }

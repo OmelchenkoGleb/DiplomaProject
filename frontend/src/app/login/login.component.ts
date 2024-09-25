@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
     this.userService.login(data).subscribe(
       (response: any): any => {
         this.dialogRef.close();
-        this.responseMesssage = 'Authorization was successfully';
+        this.responseMesssage = 'Успішно!';
         localStorage.setItem('token', response.token);
         this.scnackbarService.openSnackBar(this.responseMesssage, '');
         this.router.navigate(['/main/dashboard']);

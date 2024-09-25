@@ -1,0 +1,37 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row">
+    <span class="title-center">{{label_name}}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="addTasksForm">
+    <div fxFlex fxLayout="column">
+      <mat-form-field appearance="fill" fxFlex>
+        <mat-label>Назва</mat-label>
+        <input matInput formControlName="name" required>
+        <mat-error *ngIf="addTasksForm.controls.name.touched && addTasksForm.controls.name.invalid">
+          <span *ngIf="addTasksForm.controls.name.errors.required">Це поле э обовёязковим для заповнення.</span>
+          <span *ngIf="addTasksForm.controls.name.errors.pattern">Ви вели неправильну інформацію.</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" fxFlex>
+        <mat-label>Початкова Дата</mat-label>
+        <input matInput type="date" formControlName="from_date" required>
+        <mat-error *ngIf="addTasksForm.controls.from_date.touched && addTasksForm.controls.from_date.invalid">
+          <span *ngIf="addTasksForm.controls.from_date.errors.required">Це поле є обов'язковим для заповнення.</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" fxFlex>
+        <mat-label>Початкова Дата</mat-label>
+        <input matInput type="date" formControlName="to_date" required>
+        <mat-error *ngIf="addTasksForm.controls.to_date.touched && addTasksForm.controls.to_date.invalid">
+          <span *ngIf="addTasksForm.controls.to_date.errors.required">Це поле є обов'язковим для заповнення.</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button class="my-button" mat-raised-button color="primary" type="submit" (click)="handleSubmit()" [disabled]="!(addTasksForm.valid && addTasksForm.dirty)">Додати</button>
+  <button mat-raised-button color="primary" mat-dialog-close>Скасувати</button>
+</mat-dialog-actions>

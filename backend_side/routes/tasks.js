@@ -24,13 +24,37 @@ router.post('/get', auth.authenticateToken, (req, res)=> {
         }
     })
 })
+router.post('/getTasksFromAdmins', auth.authenticateToken, (req, res)=> {
+    let tasks = req.body;
+    let query = "SELECT * FROM `tasks_from_admins`"
+    connection.query(query,[tasks.login], (err, result)=> {
+        if(!err){
+            return res.status(200).json(result);
+        } else {
+            return res.status(500).json(err);
+        }
+    })
+})
+
 
 router.post('/add', auth.authenticateToken, (req,res) => {
     let tasks = req.body;
     query = "INSERT INTO `tasks` (`ID`, `name`, `from_date`, `to_date`, `diplomapractice_id`, `status`) VALUES (NULL, ?, ?, ?, ( SELECT dp.`ID` FROM `diploma practice` dp INNER JOIN `user` us ON (dp.`student_id` = us.`ID`) WHERE us.`login` = ? ), 'false')"
     connection.query(query, [tasks.name,tasks.from_date,tasks.to_date, tasks.email], (err, results) => {
         if(!err) {
-            return res.status(200).json({message: "Successfully Added New Task"});
+            return res.status(200).json({message: "Успішно!"});
+        } else {
+            return res.status(500).json(err);
+        }
+    })
+})
+
+router.post('/addAdminsTask', auth.authenticateToken, (req,res) => {
+    let tasks = req.body;
+    query = "INSERT INTO `tasks_from_admins` (`ID`, `name`, `from_date`, `to_date`) VALUES (NULL, ?, ?, ?);"
+    connection.query(query, [tasks.name,tasks.from_date,tasks.to_date], (err, results) => {
+        if(!err) {
+            return res.status(200).json({message: "Успішно!"});
         } else {
             return res.status(500).json(err);
         }
@@ -43,7 +67,20 @@ router.patch('/update', auth.authenticateToken, (req,res) => {
     query = "UPDATE `tasks` SET `name` = ?, `from_date` = ?, `to_date` = ? WHERE `tasks`.`ID` = ?;"
     connection.query(query, [tasks.name, tasks.from_date, tasks.to_date, tasks.id], (err, results) => {
         if(!err) {
-            return res.status(200).json({message: "Successfully Updated Task"});
+            return res.status(200).json({message: "Успішно!"});
+        } else {
+            return res.status(500).json(err);
+        }
+    })
+})
+
+router.patch('/updateForAdminsTasks', auth.authenticateToken, (req,res) => {
+    let tasks = req.body;
+    console.log(tasks);
+    query = "UPDATE `tasks_from_admins` SET `name` = ?, `from_date` = ?, `to_date` = ? WHERE `tasks_from_admins`.`ID` = ?"
+    connection.query(query, [tasks.name, tasks.from_date, tasks.to_date, tasks.id], (err, results) => {
+        if(!err) {
+            return res.status(200).json({message: "Успішно!"});
         } else {
             return res.status(500).json(err);
         }
@@ -56,7 +93,7 @@ router.patch('/changeStatus', auth.authenticateToken, (req,res) => {
     query = "UPDATE `tasks` SET `status` = ? WHERE `tasks`.`ID` = ?"
     connection.query(query, [tasks.status, tasks.id], (err, results) => {
         if(!err) {
-            return res.status(200).json({message: "Successfully Updated Status Task"});
+            return res.status(200).json({message: "Успішно!"});
         } else {
             return res.status(500).json(err);
         }
@@ -70,7 +107,20 @@ router.post('/delete', auth.authenticateToken, (req, res)=> {
     let query = "delete from `tasks` where `tasks`.`ID` = ?";
     connection.query(query, [tasks.id], (err, result) => {
         if(!err) {
-            return res.status(200).json({message : "Tasks Deleted Successfully"})
+            return res.status(200).json({message : "Успішно!"})
+        } else {
+            return res.status(500).json(err);
+        }
+    })
+})
+
+router.post('/deleteTasksForAdmins', auth.authenticateToken, (req, res)=> {
+    let tasks = req.body;
+    console.log(tasks);
+    let query = "DELETE FROM `tasks_from_admins` WHERE `tasks_from_admins`.`ID` = ?";
+    connection.query(query, [tasks.id], (err, result) => {
+        if(!err) {
+            return res.status(200).json({message : "Успішно!"})
         } else {
             return res.status(500).json(err);
         }

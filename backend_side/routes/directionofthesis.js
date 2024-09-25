@@ -55,7 +55,7 @@ router.post('/add', auth.authenticateToken, checkRole.checkRoleAdmin, (req,res) 
   query = "INSERT INTO `directionofthesis` (`ID`, `name`, `teacher_id`, `group_id`) VALUES (NULL, ?, ?, ?)"
   connection.query(query, [directionofthesis.name, directionofthesis.teacher_id, directionofthesis.group_id], (err, results) => {
     if(!err) {
-      return res.status(200).json({message: "Successfully Added New Direction Of Thesis"});
+      return res.status(200).json({message: "Успішно!"});
     } else {
       return res.status(500).json(err);
     }
@@ -68,9 +68,9 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRoleAdmin, (req, 
   connection.query(query,[directionofthesis.name, directionofthesis.teacher_id, directionofthesis.group_id, directionofthesis.id], (err, result)=> {
     if(!err){
       if (result.afffectedRows == 0) {
-        return res.status(404).json({message : "Direction Of Thesis ID does not found"});
+        return res.status(404).json({message : "Не знайдено такого напрямку"});
       } else {
-        return res.status(200).json({message : "Direction Of Thesis Updated Successfully"});
+        return res.status(200).json({message : "Успішно!"});
       }
     } else {
       return res.status(500).json(err);
@@ -83,7 +83,7 @@ router.post('/delete', auth.authenticateToken, checkRole.checkRoleAdmin, (req, r
   let query = "delete from `directionofthesis` where `directionofthesis`.`ID` = ?";
   connection.query(query, [directionofthesis.id], (err, result) => {
     if(!err) {
-      return res.status(200).json({message : "Direction Of Thesis Deleted Successfully"})
+      return res.status(200).json({message : "Успішно!"})
     } else {
       return res.status(500).json(err);
     }

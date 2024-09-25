@@ -52,7 +52,7 @@ export class ChangePasswordComponent implements OnInit {
     this.userService.changePassword(data).subscribe(
       (response: any): any => {
         this.dialogRef.close();
-        this.responseMesssage = 'Success';
+        this.responseMesssage = 'Успішно!';
         this.scnackbarService.openSnackBar(this.responseMesssage, '');
         this.router.navigate(['/main/dashboard']);
       },

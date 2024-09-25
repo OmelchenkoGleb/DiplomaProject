@@ -17,6 +17,8 @@ import {
   StudentViewDirectionofthesisComponent
 } from "./student-view-directionofthesis/student-view-directionofthesis.component";
 import {TeacherViewTopicProposalComponent} from "./teacher-view-topic-proposal/teacher-view-topic-proposal.component";
+import {ManageAdminsTasksComponent} from "./manage-admins-tasks/manage-admins-tasks.component";
+import {ManageAdminsFileComponent} from "./manage-admins-file/manage-admins-file.component";
 
 
 
@@ -35,6 +37,22 @@ export const MaterialRoutes: Routes = [
     canActivate: [RouteGuardService],
     data: {
       expectedRole: ['admin']
+    }
+  },
+  {
+    path: 'tasks',
+    component: ManageAdminsTasksComponent,
+    canActivate: [RouteGuardService],
+    data: {
+      expectedRole: ['student', 'admin', 'teacher']
+    }
+  },
+  {
+    path: 'files',
+    component: ManageAdminsFileComponent,
+    canActivate: [RouteGuardService],
+    data: {
+      expectedRole: ['student', 'admin', 'teacher']
     }
   },
   {

@@ -21,7 +21,9 @@ const MENUITEMS = [
   {state: 'studentResultFileDiary', name: 'Щоденник', icon: ' insert_drive_file_icon', role: '1'},
   {state: 'topicProposole', name: 'Запропоновані Теми', icon: ' layers_icon', role: '2'},
   {state: 'diplomapractice', name: 'Ваші Теми', icon: ' developer_board_icon', role: '2'},
-  {state: 'teacherPractice', name: 'Обрані Теми', icon: ' assignment_icon', role: '2'}
+  {state: 'teacherPractice', name: 'Обрані Теми', icon: ' assignment_icon', role: '2'},
+  {state: 'tasks', name: 'Загальні Етапи', icon: ' developer_board_icon', role: ''},
+  {state: 'files', name: 'Матеріали практики', icon: ' file_copy_icon', role: ''}
 ];
 
 @Injectable()

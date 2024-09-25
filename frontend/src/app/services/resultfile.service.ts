@@ -17,6 +17,12 @@ export class ResultfileService {
       });
   }
 
+  getAdminsFile(): any{
+    return this.httpClient.post(this.url + '/resultfile/getAdminsFile',
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
   getDiary(data: any): any{
     return this.httpClient.post(this.url + '/resultfile/getDiary', data,
       {headers: new HttpHeaders().set('Content-Type', 'application/json')

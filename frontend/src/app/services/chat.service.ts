@@ -42,8 +42,13 @@ export class ChatService {
       });
   }
   sendMessageToAdmins(data: any): Observable<any> {
-    console.log(data);
     return this.httpClient.post(this.url + '/chat/sendMessageToAdmins', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
+  sendMessageFromAdmins(data: any): Observable<any> {
+    return this.httpClient.post(this.url + '/chat/sendMessageFromAdmins', data,
       {headers: new HttpHeaders().set('Content-Type', 'application/json')
       });
   }

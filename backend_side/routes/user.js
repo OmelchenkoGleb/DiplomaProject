@@ -28,13 +28,13 @@ router.post('/login', (req,res) => {
   connection.query(query, [user.email], (err, results) => {
     if(!err) {
       if(results.length <= 0 || results[0].password != user.password) {
-        return res.status(401).json({message: "Incorrect Login or Password"});
+        return res.status(401).json({message: "Не вірний логін або пароль. Спробуйте ще раз"});
       } else if (results[0].password == user.password) {
         const response = { login: results[0].login, user_type: results[0].user_type}
         const accessToken = jwt.sign(response, process.env.ACCESS_TOKEN, {expiresIn: '8h'})
         res.status(200).json({token:accessToken});
       } else {
-        return res.status(400).json({message: "Something went wrong. Please try again later"});
+        return res.status(400).json({message: "Щось пішло не так. Спробуйте ще раз"});
       }
     } else {
       return res.status(500).json(err);
@@ -47,7 +47,7 @@ router.post('/forgotPasssword', (req, res) => {
   connection.query(query, [user.email], (err, results) => {
     if(!err) {
       if(results.length <= 0) {
-        return res.status(200).json({message: "Password sent successfully to your email."})
+        return res.status(200).json({message: "Пароль успішно надіслано на пошту."})
       } else {
         var mailOptions = {
           from: process.env.EMAIL_LOGIN,
@@ -62,7 +62,7 @@ router.post('/forgotPasssword', (req, res) => {
             console.log('Email sent: ' + info.response);
           }
         })
-        return res.status(200).json({message: "Password sent successfully to your email."});
+        return res.status(200).json({message: "Пароль успішно надіслано на пошту."});
       }
     } else {
       return res.status(500).json(err);
@@ -81,18 +81,18 @@ router.post('/changePassword', auth.authenticateToken, (req,res) => {
   connection.query(query, [user.login, user.oldPassword], (err, results) => {
     if(!err) {
       if(results.length <= 0) {
-        return res.status(400).json({message: "Incorrect old Password"});
+        return res.status(400).json({message: "Не правильний старий пароль"});
       } else if (results[0].password == user.oldPassword) {
         query = "update user set password =? where login = ?"
         connection.query(query, [user.newPassword, login], (err, response) => {
           if(!err){
-            return res.status(200).json({message: "Password updated successfully."})
+            return res.status(200).json({message: "Успішно!"})
           } else {
             return res.status(500).json(err);
           }
         });
       } else {
-        return res.status(400).json({message: "Something went wrong. Please try again later"})
+        return res.status(400).json({message: "Щось пішло не так. Спробуйте ще раз"})
       }
     } else {
       return res.status(500).json(err);
@@ -163,7 +163,7 @@ router.post('/add', auth.authenticateToken, checkRole.checkRoleAdmin, (req,res) 
               connection.query(query, [results.insertId, user.groupID], (err, results) => {
                 if(!err) {
                   console.log("Successfully Registered");
-                  return res.status(200).json({message: "Successfully Registered"});
+                  return res.status(200).json({message: "Успішно!"});
                 } else {
                   console.log(err);
                   return res.status(500).json(err);
@@ -171,7 +171,7 @@ router.post('/add', auth.authenticateToken, checkRole.checkRoleAdmin, (req,res) 
               })
             } else {
               console.log("Successfully Registered");
-              return res.status(200).json({message: "Successfully Registered"});
+              return res.status(200).json({message: "Успішно!"});
             }
           } else {
             console.log(err);
@@ -180,7 +180,7 @@ router.post('/add', auth.authenticateToken, checkRole.checkRoleAdmin, (req,res) 
         })
       } else {
         console.log("Email Already Exist");
-        return res.status(400).json({message: "Email Already Exist"});
+        return res.status(400).json({message: "Ця пошта вже зайнята"});
       }
     } else {
       return res.status(500).json(err);
@@ -200,7 +200,7 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRoleAdmin, (req, 
         connection.query(query,[user.name, user.contactNumber, user.email, user.password, user.id], (err, result)=> {
           if(!err){
             if (result.afffectedRows == 0) {
-              return res.status(404).json({message : "User ID does not found"});
+              return res.status(404).json({message : "Не знайдено користувача"});
             } else {
               if (user.user_type == '1') {
                 let query = "UPDATE `group_member` SET `specialty_id` = ? WHERE `group_member`.`student_id` = ?;"
@@ -211,7 +211,7 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRoleAdmin, (req, 
                       connection.query(query, [user.id, user.groupId], (err, results) => {
                         if(!err) {
                           console.log("Successfully Registered");
-                          return res.status(200).json({message: "Successfully Registered"});
+                          return res.status(200).json({message: "Успішно!"});
                         } else {
                           console.log(err);
                           return res.status(500).json(err);
@@ -223,14 +223,14 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRoleAdmin, (req, 
                     return res.status(500).json(err);
                   }
                 })
-              } else return res.status(200).json({message : "User Updated Successfully"});
+              } else return res.status(200).json({message : "Успішно!"});
             }
           } else {
             return res.status(500).json(err);
           }
         })
       } else {
-        return res.status(400).json({message: "User Already Exist"});
+        return res.status(400).json({message: "Користувач вже існує"});
       }
     } else {
       return res.status(500).json(err);
@@ -243,7 +243,7 @@ router.post('/delete', auth.authenticateToken, checkRole.checkRoleAdmin, (req, r
   let query = "delete from `user` where `user`.`ID` = ?";
   connection.query(query, [user.id], (err, result) => {
     if(!err) {
-      return res.status(200).json({message : "User Deleted Successfully"})
+      return res.status(200).json({message : "Успішно!"})
     } else {
       return res.status(500).json(err);
     }
