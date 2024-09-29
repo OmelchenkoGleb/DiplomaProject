@@ -19,6 +19,7 @@ import {
 import {TeacherViewTopicProposalComponent} from "./teacher-view-topic-proposal/teacher-view-topic-proposal.component";
 import {ManageAdminsTasksComponent} from "./manage-admins-tasks/manage-admins-tasks.component";
 import {ManageAdminsFileComponent} from "./manage-admins-file/manage-admins-file.component";
+import {ResultFilesPracticeComponent} from "./result-files-practice/result-files-practice.component";
 
 
 
@@ -53,6 +54,14 @@ export const MaterialRoutes: Routes = [
     canActivate: [RouteGuardService],
     data: {
       expectedRole: ['student', 'admin', 'teacher']
+    }
+  },
+  {
+    path: 'result_files_practice',
+    component: ResultFilesPracticeComponent,
+    canActivate: [RouteGuardService],
+    data: {
+      expectedRole: ['student', 'admin']
     }
   },
   {

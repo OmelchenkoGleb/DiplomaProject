@@ -27,6 +27,29 @@ router.post('/getReport', auth.authenticateToken, (req, res)=> {
 })
 
 
+router.post('/getStudentAllResultFiles', auth.authenticateToken, (req, res)=> {
+    let resultfile = req.body;
+    let query = "SELECT rf.`ID` as `ID`, rf.`filetype_id` as `filetype_id`, rf.`file` as `file`, rf.`filename` as `filename`, us.`name` as student_name, sp.`Name` as group_name FROM `resultfile` rf INNER JOIN `user` us ON(us.`ID` = rf.`user_id`) INNER JOIN `group_member` gm ON(gm.`student_id` = us.`ID`) INNER JOIN `specialty` sp ON(sp.`ID` = gm.`specialty_id`) WHERE us.`login` = ? AND rf.`filetype_id` = '4'"
+    connection.query(query,[resultfile.login], (err, result)=> {
+        if(!err){
+            return res.status(200).json(result);
+        } else {
+            return res.status(500).json(err);
+        }
+    })
+})
+
+router.post('/getAllResultFiles', auth.authenticateToken, (req, res)=> {
+    let query = "SELECT rf.`ID` as `ID`, rf.`filetype_id` as `filetype_id`, rf.`file` as `file`, rf.`filename` as `filename`, us.`name` as student_name, sp.`Name` as group_name FROM `resultfile` rf INNER JOIN `user` us ON(us.`ID` = rf.`user_id`) INNER JOIN `group_member` gm ON(gm.`student_id` = us.`ID`) INNER JOIN `specialty` sp ON(sp.`ID` = gm.`specialty_id`) WHERE rf.`filetype_id` = '4'"
+    connection.query(query, (err, result)=> {
+        if(!err){
+            return res.status(200).json(result);
+        } else {
+            return res.status(500).json(err);
+        }
+    })
+})
+
 router.post('/getAdminsFile', auth.authenticateToken, (req, res)=> {
     let resultfile = req.body;
     let query = "SELECT * FROM `resultfile` WHERE `filetype_id` = 3"

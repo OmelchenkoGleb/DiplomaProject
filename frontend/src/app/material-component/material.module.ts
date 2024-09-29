@@ -41,6 +41,7 @@ import { AdminsSendMailComponent } from './dialog/admins-send-mail/admins-send-m
 import { ManageAdminsTasksComponent } from './manage-admins-tasks/manage-admins-tasks.component';
 import { AdminsTasksComponent } from './dialog/admins-tasks/admins-tasks.component';
 import { ManageAdminsFileComponent } from './manage-admins-file/manage-admins-file.component';
+import { ResultFilesPracticeComponent } from './result-files-practice/result-files-practice.component';
 
 @NgModule({
     imports: [
@@ -86,7 +87,8 @@ import { ManageAdminsFileComponent } from './manage-admins-file/manage-admins-fi
     AdminsSendMailComponent,
     ManageAdminsTasksComponent,
     AdminsTasksComponent,
-    ManageAdminsFileComponent
+    ManageAdminsFileComponent,
+    ResultFilesPracticeComponent
   ]
 })
 export class MaterialComponentsModule {}

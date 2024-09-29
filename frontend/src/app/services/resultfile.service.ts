@@ -17,6 +17,18 @@ export class ResultfileService {
       });
   }
 
+  getStudentAllResultFiles(data: any): any{
+    return this.httpClient.post(this.url + '/resultfile/getStudentAllResultFiles', data,
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
+  getAllResultFiles(): any{
+    return this.httpClient.post(this.url + '/resultfile/getAllResultFiles',
+      {headers: new HttpHeaders().set('Content-Type', 'application/json')
+      });
+  }
+
   getAdminsFile(): any{
     return this.httpClient.post(this.url + '/resultfile/getAdminsFile',
       {headers: new HttpHeaders().set('Content-Type', 'application/json')

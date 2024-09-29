@@ -17,14 +17,18 @@ const MENUITEMS = [
   {state: 'studentChoosePractice', name: 'Обрати Тему', icon: ' assignment_icon', role: '1'},
   {state: 'directionForStudent', name: 'Запропонувати Тему', icon: ' layers_icon', role: '1'},
   {state: 'studenttasks', name: 'Календарний План', icon: ' developer_board_icon', role: '1'},
-  {state: 'studentResultFileReport', name: 'Звіт', icon: ' file_copy_icon', role: '1'},
-  {state: 'studentResultFileDiary', name: 'Щоденник', icon: ' insert_drive_file_icon', role: '1'},
+  {state: 'studentResultFileReport', name: 'Звіт (Керівнику)', icon: ' file_copy_icon', role: '1'},
+  {state: 'studentResultFileDiary', name: 'Щоденник (Керівнику)', icon: ' insert_drive_file_icon', role: '1'},
   {state: 'topicProposole', name: 'Запропоновані Теми', icon: ' layers_icon', role: '2'},
   {state: 'diplomapractice', name: 'Ваші Теми', icon: ' developer_board_icon', role: '2'},
   {state: 'teacherPractice', name: 'Обрані Теми', icon: ' assignment_icon', role: '2'},
-  {state: 'tasks', name: 'Загальні Етапи', icon: ' developer_board_icon', role: ''},
-  {state: 'files', name: 'Матеріали практики', icon: ' file_copy_icon', role: ''}
+  {state: 'tasks', name: 'Ключові етапи', icon: ' developer_board_icon', role: ''},
+  {state: 'files', name: 'Матеріали', icon: ' file_copy_icon', role: ''},
+  {state: 'result_files_practice', name: 'Документи Студентів', icon: ' file_copy_icon', role: '3'},
+  {state: 'result_files_practice', name: 'Сдача Документів', icon: ' file_copy_icon', role: '1'}
 ];
+
+
 
 @Injectable()
 export class MenuItems {
