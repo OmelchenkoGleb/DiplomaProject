@@ -1,24 +1,17 @@
 // API для роботи із таблицею faculty
-
 const express = require('express')
 const connection = require('../connection');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-
 //authentification
 var auth = require('../services/authentification')
 //checkRoles
 var checkRole = require('../services/checkRole')
-
-
-
 router.get('/info', auth.authenticateToken , (req, res)=> {
   var specialityCount;
   var directionofthesisCount;
   var diplomapracticeCount;
-
-
   var query = "SELECT COUNT(*) as specialtyCount FROM `specialty`"
   connection.query(query, (err, result)=> {
     if(!err){
@@ -27,7 +20,6 @@ router.get('/info', auth.authenticateToken , (req, res)=> {
       return res.status(500).json(err);
     }
   })
-
   query = "SELECT COUNT(*) as diplomapracticeCount FROM `diploma practice`"
   connection.query(query, (err, result)=> {
     if(!err){
@@ -36,7 +28,6 @@ router.get('/info', auth.authenticateToken , (req, res)=> {
       return res.status(500).json(err);
     }
   })
-
   query = "SELECT COUNT(*) as directionofthesisCount FROM `directionofthesis`"
   connection.query(query, (err, result)=> {
     if(!err){
@@ -53,7 +44,6 @@ router.get('/info', auth.authenticateToken , (req, res)=> {
   })
 })
 
-
 router.post('/infoForStudent', auth.authenticateToken , (req, res)=> {
   var tasksCount;
   var completeTasksCount;
@@ -67,8 +57,6 @@ router.post('/infoForStudent', auth.authenticateToken , (req, res)=> {
       return res.status(500).json(err);
     }
   })
-
-
   query = "SELECT COUNT(*) as tasksCount FROM `tasks`ts INNER JOIN `diploma practice` dp ON(dp.`ID` = ts.`diplomapractice_id`) INNER JOIN `user` us ON(us.`ID` = dp.`student_id`) WHERE us.`login` = ? AND ts.`status` = 'true'"
   connection.query(query,[info_regarding_student.login], (err, result)=> {
     if(!err){
@@ -83,8 +71,6 @@ router.post('/infoForStudent', auth.authenticateToken , (req, res)=> {
     }
   })
 })
-
-
 router.post('/infoForTeacher', auth.authenticateToken , (req, res)=> {
   var newThemeCount
   var practiceCount;
@@ -98,8 +84,6 @@ router.post('/infoForTeacher', auth.authenticateToken , (req, res)=> {
         return res.status(500).json(err);
       }
     })
-
-
     query = "SELECT COUNT(*) as newThemeCount FROM `diploma practice` dp INNER JOIN `user` us ON (us.`ID` = dp.`student_id`) INNER JOIN `directionofthesis` dr ON (dr.`ID` = dp.`directionofthesis_id`) INNER JOIN `specialty` sp ON (sp.`ID` = dr.`group_id`) INNER JOIN `user` uss ON (uss.`ID` = dr.`teacher_id`) WHERE uss.`login` = ?"
     connection.query(query,[info_regarding_teacher.login], (err, result)=> {
       if(!err){
@@ -114,6 +98,4 @@ router.post('/infoForTeacher', auth.authenticateToken , (req, res)=> {
       }
     })
 })
-
-
 module.exports = router

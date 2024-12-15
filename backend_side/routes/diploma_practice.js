@@ -6,12 +6,10 @@ const router = express.Router();
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-
 const bodyParser = require('body-parser');
 const XLSX = require('xlsx');
 const fs = require('fs');
 const path = require('path');
-
 //authentification
 var auth = require('../services/authentification')
 //checkRoles
@@ -24,7 +22,6 @@ var transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASSWORD
     }
 });
-
 // БАЗОВІ CRUD ЗАПИТИ
 // get
 router.post('/get', auth.authenticateToken, checkRole.checkRoleTeacher, (req, res)=> {
@@ -38,7 +35,6 @@ router.post('/get', auth.authenticateToken, checkRole.checkRoleTeacher, (req, re
         }
     })
 })
-
 router.post('/getForTeacher', auth.authenticateToken, checkRole.checkRoleTeacher, (req, res)=> {
     let informationTeacher = req.body;
     let query = "SELECT dp.`ID` as practice_id, dp.`description` as description, us.`Name` as student_name, us.`contact_number` as contact_number, us.`login` as student_email, dr.`name` as directionofthesis_name, sp.`Name` as group_name FROM `diploma practice` dp INNER JOIN `user` us ON (us.`ID` = dp.`student_id`) INNER JOIN `directionofthesis` dr ON (dr.`ID` = dp.`directionofthesis_id`) INNER JOIN `specialty` sp ON (sp.`ID` = dr.`group_id`) INNER JOIN `user` uss ON (uss.`ID` = dr.`teacher_id`) WHERE uss.`login` = ?";
@@ -50,7 +46,6 @@ router.post('/getForTeacher', auth.authenticateToken, checkRole.checkRoleTeacher
         }
     })
 })
-
 router.post('/getForStudent', auth.authenticateToken, checkRole.checkRoleStudent, (req, res)=> {
     let informationStudent = req.body;
     let query = "SELECT uss.`login` as teacher_login, dr.`ID` as directionId, dp.`ID` as ID, dp.`description` as description, dr.`name` as directionofthesis_name, sp.`Name` as group_name, uss.`name` as teacher_name FROM `diploma practice` dp INNER JOIN `directionofthesis` dr ON (dr.`ID` = dp.`directionofthesis_id`) INNER JOIN `specialty` sp ON (sp.`ID` = dr.`group_id`) INNER JOIN `user` uss ON (uss.`ID` = dr.`teacher_id`) WHERE dp.`student_id` is NULL AND dr.`group_id` = ( SELECT gm.`specialty_id` FROM `group_member`gm INNER JOIN `user` us ON (gm.`student_id` = us.`ID`) WHERE us.`login` = ?)";
@@ -62,7 +57,6 @@ router.post('/getForStudent', auth.authenticateToken, checkRole.checkRoleStudent
         }
     })
 })
-
 router.post('/checkPracticeForStudent', auth.authenticateToken, checkRole.checkRoleStudent, (req, res)=> {
     let informationStudent = req.body;
     let query = "SELECT uss.`login` as teacher_email, dr.`ID` as directionId, dp.`ID` as ID, dp.`description` as description, dr.`name` as directionofthesis_name, sp.`Name` as group_name, uss.`name` as teacher_name FROM `diploma practice` dp INNER JOIN `directionofthesis` dr ON (dr.`ID` = dp.`directionofthesis_id`) INNER JOIN `specialty` sp ON (sp.`ID` = dr.`group_id`) INNER JOIN `user` uss ON (uss.`ID` = dr.`teacher_id`) WHERE dp.`student_id` = (SELECT `ID` FROM `user` WHERE `login` = ?)";
@@ -74,7 +68,6 @@ router.post('/checkPracticeForStudent', auth.authenticateToken, checkRole.checkR
         }
     })
 })
-
 router.post('/setNullForTeacher', auth.authenticateToken, checkRole.checkRoleTeacher, (req,res) => {
     let diplomapractice = req.body;
     console.log(diplomapractice);
@@ -114,7 +107,6 @@ router.post('/setNullForTeacher', auth.authenticateToken, checkRole.checkRoleTea
         }
     })
 })
-
 router.post('/setStudent', auth.authenticateToken, checkRole.checkRoleStudent, (req,res) => {
     let diplomapractice = req.body;
     console.log(diplomapractice);
@@ -154,8 +146,6 @@ router.post('/setStudent', auth.authenticateToken, checkRole.checkRoleStudent, (
         }
     })
 })
-
-
 // add
 router.post('/add', auth.authenticateToken, checkRole.checkRoleTeacher, (req,res) => {
     let diplomapractice = req.body;
@@ -169,7 +159,6 @@ router.post('/add', auth.authenticateToken, checkRole.checkRoleTeacher, (req,res
         }
     })
 })
-
 // update
 router.patch('/update', auth.authenticateToken, checkRole.checkRoleTeacher, (req, res)=> {
     let diplomapractice = req.body;
@@ -198,14 +187,6 @@ router.post('/delete', auth.authenticateToken, checkRole.checkRoleTeacher, (req,
         }
     })
 })
-
-
-
-
-
-
-//TOPIC PROPOSAL
-
 router.post('/getTopicProposal', auth.authenticateToken, checkRole.checkRoleTeacher, (req, res)=> {
     let informationTeacher = req.body;
     query = "SELECT dr.`ID` as direction_id, us.`ID` as student_id, uss.`name` as teacher_name, dp.`ID` as practice_id, dp.`description` as description, us.`Name` as student_name, us.`contact_number` as contact_number, us.`login` as student_email, dr.`name` as directionofthesis_name, sp.`Name` as group_name FROM `topic_proposal` dp INNER JOIN `user` us ON (us.`ID` = dp.`student_id`) INNER JOIN `directionofthesis` dr ON (dr.`ID` = dp.`directionofthesis_id`) INNER JOIN `specialty` sp ON (sp.`ID` = dr.`group_id`) INNER JOIN `user` uss ON (uss.`ID` = dr.`teacher_id`) WHERE uss.`login` = ?"
@@ -217,7 +198,6 @@ router.post('/getTopicProposal', auth.authenticateToken, checkRole.checkRoleTeac
         }
     })
 })
-
 router.post('/setTopicProposal', auth.authenticateToken, checkRole.checkRoleStudent, (req,res) => {
     let diplomapractice = req.body;
     console.log(diplomapractice);
@@ -230,7 +210,6 @@ router.post('/setTopicProposal', auth.authenticateToken, checkRole.checkRoleStud
         }
     })
 })
-
 router.post('/deleteTopicProposole', auth.authenticateToken, checkRole.checkRoleTeacher, (req,res) => {
     let diplomapractice = req.body;
     console.log(diplomapractice);
@@ -257,7 +236,6 @@ router.post('/deleteTopicProposole', auth.authenticateToken, checkRole.checkRole
         }
     })
 })
-
 router.post('/approveTopicProposole', auth.authenticateToken, checkRole.checkRoleTeacher, (req,res) => {
     let diplomapractice = req.body;
     console.log(diplomapractice);
@@ -298,10 +276,8 @@ router.post('/approveTopicProposole', auth.authenticateToken, checkRole.checkRol
         }
     })
 })
-
-// Эндпоинт для формирования XLSX файла
 router.post('/generateReport', (req, res) => {
-    var data = req.body; // Получаем данные из запроса
+    var data = req.body;
     console.log(data);
     var query = "";
     if (data.typeReport == 'allPractice') query = 'SELECT sp.`Name` as `Група`, us.`Name` as `Студент`, uss.`Name` as `Викладач`, dr.`name` as `Напрямок`, dp.`description` as `Тема` FROM `diploma practice` dp INNER JOIN `user` us ON (us.`ID` = dp.`student_id`) INNER JOIN `directionofthesis` dr ON (dr.`ID` = dp.`directionofthesis_id`) INNER JOIN `specialty` sp ON (sp.`ID` = dr.`group_id`) INNER JOIN `user` uss ON (uss.`ID` = dr.`teacher_id`) WHERE sp.`ID` = ?';
@@ -311,24 +287,18 @@ router.post('/generateReport', (req, res) => {
         if (err) {
             return res.status(500).send('Помилка');
         }
-        // Преобразование данных в формат для XLSX
         const ws = XLSX.utils.json_to_sheet(results);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Data');
-
-        // Сохранение файла на сервере
         const filePath = path.join(__dirname, 'data.xlsx');
         XLSX.writeFile(wb, filePath);
-
-        // Отправка файла пользователю
         res.download(filePath, 'data.xlsx', (err) => {
             if (err) {
                 console.log('Error in file download:', err);
             }
-            // Удаление файла после отправки
+
             fs.unlinkSync(filePath);
         });
     });
 });
-
 module.exports = router
